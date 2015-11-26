@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>sample page</title>
+        <style media="screen">
+            img{max-width:100%;}
+            table{border:1px solid #666;}
+            table th{border:1px solid #666;}
+            table td{border:1px solid #666;}
+        </style>
+        <link rel="stylesheet" href="/libs/broccoli-bootstrap3-glyphicons-field/dist/css/bootstrap.min.css"></link>
+        <link rel="stylesheet" href=""/libs/broccoli-bootstrap3-glyphicons-field/dist/css/bootstrap-theme.min.css"></link>
+        <link rel="stylesheet" href=""/libs/broccoli-bootstrap3-glyphicons-field/dist/css/broccoli.css"></link>
+        <script type="text/javascript" src="/libs/broccoli-bootstrap3-glyphicons-field/dist/js/bootstrap.min.js"></script>
+    </head>
+    <body>
+        <h1>sample page</h1>
+        <h2>main</h2>
+        <div class="contents" data-contents="main">
+
+        </div><!-- /main -->
+        <h2>secondly</h2>
+        <div class="contents" data-contents="secondly">
+undefined
+
+        </div><!-- /secondly -->
+    </body>
+</html>
+<script data-broccoli-receive-message="yes">
+window.addEventListener('message',(function() {
+return function f(event) {
+if(event.origin!='http://127.0.0.1:8088'){return;}// <- check your own server's origin.
+var s=document.createElement('script');
+document.querySelector('body').appendChild(s);s.src=event.data.scriptUrl;
+window.removeEventListener('message', f, false);
+}
+})(),false);
+</script>

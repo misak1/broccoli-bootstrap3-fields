@@ -1,0 +1,18 @@
+{
+    "name": "tomoya/broccoli-html-editor--table-field",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Tomoya Koyanagi",
+            "email": "tomk79@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0",
+        "tomk79/filesystem": "1.*",
+        "tomk79/request": "0.1.*",
+        "tomk79/php-excel2html": "0.0.*",
+        "michelf/php-markdown": "1.4.*",
+        "leafo/scssphp": "0.1.*"
+    }
+}

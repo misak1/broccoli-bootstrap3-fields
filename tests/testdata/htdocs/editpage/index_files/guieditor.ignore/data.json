@@ -1,0 +1,27 @@
+{
+ "bowl": {
+  "main": {
+   "modId": "_sys/root",
+   "fields": {
+    "main": []
+   }
+  },
+  "secondly": {
+   "modId": "_sys/root",
+   "fields": {
+    "main": [
+     {
+      "modId": "testMod1:icon/Glyphicons",
+      "fields": {
+       "Glyphicons": {
+        "resKey": "41a1efb2c77b24402fbae91f599ec9fa",
+        "path": "about:blank",
+        "base64": "registration-mark"
+       }
+      }
+     }
+    ]
+   }
+  }
+ }
+}
