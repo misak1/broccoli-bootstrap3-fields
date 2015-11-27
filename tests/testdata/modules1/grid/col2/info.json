@@ -1,0 +1,15 @@
+{
+	"name": "2 cols",
+	"interface": {
+		"fields": {
+			"column1":{
+				"fieldType": "module"
+			},
+			"column2":{
+				"fieldType": "module"
+			}
+		}
+	},
+	"sample_data":[
+	]
+}

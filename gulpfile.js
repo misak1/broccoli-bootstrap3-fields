@@ -41,15 +41,15 @@ gulp.task("test/main.js", function() {
 
 gulp.task("copy", function() {
 	gulp.src(["./libs/css/**/*"])
-		.pipe(gulp.dest( './tests/testdata/htdocs/libs/broccoli-bootstrap3-glyphicons-field/dist/css/')) // テスト用
+		.pipe(gulp.dest( './tests/testdata/htdocs/libs/bs3/css/')) // テスト用
 		.pipe(gulp.dest( './dist/css/' )) // 本番用
 	;
 	gulp.src(["./libs/js/**/*"])
-		.pipe(gulp.dest( './tests/testdata/htdocs/libs/broccoli-bootstrap3-glyphicons-field/dist/js/')) // テスト用
+		.pipe(gulp.dest( './tests/testdata/htdocs/libs/bs3/js/')) // テスト用
 		.pipe(gulp.dest( './dist/js/' )) // 本番用
 	;
 	gulp.src(["./libs/fonts/**/*"])
-		.pipe(gulp.dest( './tests/testdata/htdocs/libs/broccoli-bootstrap3-glyphicons-field/dist/fonts/')) // テスト用
+		.pipe(gulp.dest( './tests/testdata/htdocs/libs/bs3/fonts/')) // テスト用
 		.pipe(gulp.dest( './dist/fonts/' )) // 本番用
 	;
 });

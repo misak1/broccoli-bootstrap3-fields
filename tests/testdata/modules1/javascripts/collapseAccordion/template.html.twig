@@ -1,0 +1,16 @@
+
+
+<div class="panel-group" id="{{ accordion_id }}" role="tablist" aria-multiselectable="true">
+{% for row in accordion_loop %}
+  <div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="{{ row.heading_name }}">
+      <h4 class="panel-title"><a data-toggle="collapse" data-parent="#{{ row.accordion_id }}" href="#{{ row.collapse_name }}" aria-expanded="true" aria-controls="{{ row.collapse_name }}">{{ row.title }}</a></h4>
+    </div>
+    <div id="{{ row.collapse_name }}" class="panel-collapse collapse{% if _ENV.mode == 'canvas' %} in {% else %}{{ row.is_collapse_in }}{% endif %}" role="tabpanel" aria-labelledby="{{ row.heading_name }}">
+      <div class="panel-body">
+        {{ row.body }}
+      </div>
+    </div>
+  </div>
+{% endfor %}
+</div><!-- / #{{ accordion_id }} -->

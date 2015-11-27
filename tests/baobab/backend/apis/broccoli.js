@@ -25,7 +25,8 @@ module.exports = function( data, callback, main, socket ){
 					'pathResourceDir': '/editpage/index_files/resources/',
 					'realpathDataDir': path.resolve(__dirname, '../../../testdata/htdocs/editpage/index_files/guieditor.ignore/')+'/',
 					'customFields': {
-						'Glyphicons': require('./../../../../libs/bootstrap3-glyphicons-server.js')
+						'Glyphicons': require('./../../../../libs/bootstrap3-glyphicons-server.js'),
+						'Button': require('./../../../../libs/bootstrap3-button-server.js')
 					} ,
 					'bindTemplate': function(htmls, callback){
 						var fin = '';
@@ -40,11 +41,6 @@ module.exports = function( data, callback, main, socket ){
 						fin += '            table th{border:1px solid #666;}'+"\n";
 						fin += '            table td{border:1px solid #666;}'+"\n";
 						fin += '        </style>'+"\n";
-
-						fin += '        <link rel="stylesheet" href="/libs/broccoli-bootstrap3-glyphicons-field/dist/css/bootstrap.min.css"></link>'+"\n";
-						fin += '        <link rel="stylesheet" href=""/libs/broccoli-bootstrap3-glyphicons-field/dist/css/bootstrap-theme.min.css"></link>'+"\n";
-						fin += '        <link rel="stylesheet" href=""/libs/broccoli-bootstrap3-glyphicons-field/dist/css/broccoli.css"></link>'+"\n";
-						fin += '        <script type="text/javascript" src="/libs/broccoli-bootstrap3-glyphicons-field/dist/js/bootstrap.min.js"></script>'+"\n";
 
 						fin += '    </head>'+"\n";
 						fin += '    <body>'+"\n";
@@ -69,6 +65,12 @@ module.exports = function( data, callback, main, socket ){
 						fin += '}'+"\n";
 						fin += '})(),false);'+"\n";
 						fin += '</script>'+"\n";
+
+						// bootstrap3
+						fin += '<link rel="stylesheet" href="/libs/bs3/css/bootstrap.min.css" />'+"\n";
+						fin += '<link rel="stylesheet" href="/libs/bs3/css/bootstrap-theme.min.css" />'+"\n";
+						fin += '<link rel="stylesheet" href="/libs/bs3/css/bootstrap4broccoli.css" />'+"\n";
+						fin += '<script type="text/javascript" href="/libs/bs3/js/bootstrap.min.js"></script>'+"\n";
 
 						callback(fin);
 						return;

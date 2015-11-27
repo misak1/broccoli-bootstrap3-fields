@@ -29,6 +29,7 @@ module.exports = function(broccoli) {
    * データをバインドする
    */
   this.bind = function(fieldData, mode, mod, callback) {
+    console.log('mode', mode);
     var rtn = {}
     if (typeof(fieldData) === typeof({})) {
       rtn = fieldData;
@@ -38,9 +39,11 @@ module.exports = function(broccoli) {
       function(it1, data) {
         console.log('rtn', rtn);
         _resMgr.getResource(rtn.resKey, function(res) {
-          if(rtn.base64 === '') rtn.base64 = _icon;
+          if(rtn.icon === '' || rtn.icon == null){
+            rtn.icon = _icon;
+          }
           if (mode == 'canvas') {
-            rtn.html = '<span class="glyphicon glyphicon-' + rtn.base64 + '"></span>';
+            rtn.html = '<span class="glyphicon glyphicon-' + rtn.icon + '"></span>';
           }
           it1.next(data);
           return;

@@ -1,0 +1,48 @@
+{
+	"name": "Collapse Accordion" ,
+	"areaSizeDetection": "shallow",
+	"interface": {
+		"fields": {
+			"accordion_id":{
+				"fieldType": "input",
+				"type":"html_attr_text",
+				"rows":1
+			},
+			"accordion_loop":{
+				"fieldType":"loop"
+			}
+		},
+		"subModule":{
+			"accordion_loop":{
+				"fields":{
+					"collapse_name":{
+						"fieldType": "input",
+						"type":"html_attr_text",
+						"rows":1
+					},
+					"heading_name":{
+						"fieldType": "input",
+						"type":"html_attr_text",
+						"rows":1
+					},
+					"title":{
+						"fieldType": "input",
+						"type":"text",
+						"rows":1
+					},
+					"is_collapse_in":{
+						"fieldType": "input",
+						"type":"select",
+						"options":[
+							{"value":"", "label":"default closed"},
+							{"value":" in", "label":"default opened"}
+						]
+					},
+					"body":{
+						"fieldType": "module"
+					}
+				}
+			}
+		}
+	}
+}

@@ -1,0 +1,37 @@
+{
+	"name": "Carousel",
+	"areaSizeDetection": "shallow",
+	"interface": {
+		"fields": {
+			"carousel_id":{
+				"fieldType": "input",
+				"type":"html_attr_text",
+				"rows":1
+			},
+			"carousel_loop":{
+				"fieldType":"loop"
+			}
+		},
+		"subModule":{
+			"carousel_loop":{
+				"fields":{
+					"image_src":{
+						"fieldType": "input",
+						"type":"image",
+						"rows":1
+					},
+					"image_alt":{
+						"fieldType": "input",
+						"type":"html_attr_text",
+						"rows":1
+					},
+					"caption":{
+						"fieldType": "input",
+						"type":"multitext",
+						"rows":4
+					}
+				}
+			}
+		}
+	}
+}

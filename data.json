@@ -1,0 +1,25 @@
+{
+ "bowl": {
+  "main": {
+   "modId": "_sys/root",
+   "fields": {
+    "main": [
+     {
+      "modId": "testMod1:heading/heading1",
+      "fields": {
+       "heading": "テスト",
+       "secondary": ""
+      }
+     }
+    ]
+   }
+  },
+  "secondly": {
+   "modId": "_sys/root",
+   "fields": {
+    "main": [
+    ]
+   }
+  }
+ }
+}

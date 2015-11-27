@@ -3,24 +3,36 @@
   "main": {
    "modId": "_sys/root",
    "fields": {
-    "main": []
+    "main": [
+     {
+      "modId": "testMod1:heading/heading1",
+      "fields": {
+       "heading": "テスト",
+       "secondary": ""
+      }
+     },
+     {
+      "modId": "testMod1:buttons/Button",
+      "fields": {
+       "Button": {
+        "fields": {
+         "btn-label": "",
+         "btn-type": "button",
+         "btn-style": "btn-info",
+         "btn-size": " btn-sm",
+         "btn-block": "",
+         "btn-action": ""
+        }
+       }
+      }
+     }
+    ]
    }
   },
   "secondly": {
    "modId": "_sys/root",
    "fields": {
-    "main": [
-     {
-      "modId": "testMod1:icon/Glyphicons",
-      "fields": {
-       "Glyphicons": {
-        "resKey": "41a1efb2c77b24402fbae91f599ec9fa",
-        "path": "about:blank",
-        "base64": "registration-mark"
-       }
-      }
-     }
-    ]
+    "main": []
    }
   }
  }

@@ -9,6 +9,276 @@ module.exports = function(broccoli){
 	var _ = require('underscore');
 
 	var _resMgr = broccoli.resourceMgr;
+
+	var _btnLabel = "";
+	var _btnAction = "";
+	var _btnType = [
+		{"value":"button", "label":"&lt;button type=&quot;button&quot;&gt;text&lt;/button&gt;"},
+		{"value":"submit", "label":"&lt;button type=&quot;submit&quot;&gt;text&lt;/button&gt;"},
+		{"value":"link", "label":"&lt;a href=&quot;url&quot;&gt;text&lt;/a&gt;"}
+	];
+	var _btnStyle = [
+		{"value":"btn-default", "label":"default"},
+		{"value":"btn-primary", "label":"primary"},
+		{"value":"btn-success", "label":"success"},
+		{"value":"btn-info", "label":"info"},
+		{"value":"btn-warning", "label":"warning"},
+		{"value":"btn-danger", "label":"danger"},
+		{"value":"btn-link", "label":"link"}
+	];
+	var _btnSize = [
+		{"value":"", "label":"default"},
+		{"value":" btn-lg", "label":"Large"},
+		{"value":" btn-sm", "label":"Small"},
+		{"value":" btn-xs", "label":"X-Small"}
+	];
+	var _btnBlock = [
+		{"value":"", "label":"default(inline)"},
+		{"value":" btn-block", "label":"block"}
+	];
+	var _this = this;
+
+
+	//  Server Side  | <Client Side>
+	// --------------+-------------------
+	// bind          |
+	// mkPreviewHtml | mkPreviewHtml
+	// normalizeData | normalizeData
+	//               | mkEditor
+	//               | duplicateData
+	//               | saveEditorContent
+	// gpi           |
+
+	/**
+	 * プレビュー用の簡易なHTMLを生成する
+	 */
+	this.mkPreviewHtml = function( fieldData, mod, callback ){
+		console.log('mkPreviewHtml', 'client');
+		var rtn = {}
+		if( typeof(fieldData) === typeof({}) ){
+			rtn = fieldData;
+		}
+		_resMgr.getResource( rtn.resKeyEditPng, function(res){
+			callback(rtn.get(0).outerHTML);
+		} );
+		return;
+	}
+
+	/**
+	 * データを正規化する
+	 */
+	this.normalizeData = function( fieldData, mode ){
+		var rtn = fieldData;
+		if( typeof(fieldData) !== typeof({}) ){
+			rtn = {
+				"fields":{
+					"btn-label": "",
+					"btn-action": "",
+					"btn-type": "",
+					"btn-style": "",
+					"btn-size": "",
+					"btn-block": ""
+				}
+			};
+		}
+		return rtn;
+	}
+
+	/**
+	 * エディタUIを生成
+	 */
+	this.mkEditor = function( mod, data, elm, callback ){
+		var rtn = $('<div>');
+
+		// btn-label
+		rtn.append('<h3>btn-label</h3>').append($('<div class="bs-btnLabel">').append($('<input type="text" name="btnLabel">')));
+
+		// btn-action
+		rtn.append('<h3>btn-action</h3>').append($('<div class="bs-btnAction">').append($('<textarea name="btnAction">')));
+
+		// btn-type
+		var htmlBtnType = (function() {/*
+		<li style="list-style:none;">
+			<label style="display:block;">
+				<input type="radio" name="btnType" value="<%= typeVal %>" style="display:block;">
+				<span><%= typeLbl %></span>
+			</label>
+		</li>
+		*/}).toString().uHereDoc();
+		var _htmlBtnType = _.template(htmlBtnType);
+		$ulBtnType = $('<ul>');
+		for (var type_i = 0; type_i < _btnType.length; type_i++) {
+			$ulBtnType.append($(_htmlBtnType({
+				'typeVal': _btnType[type_i].value,
+				'typeLbl': _btnType[type_i].label
+			})));
+		}
+		rtn.append('<h3>btn-type</h3>').append($('<div class="bs-btnType">').append($ulBtnType));
+
+
+		// btn-style
+		var htmlBtnStyle = (function() {/*
+		<li style="display:inline-block; vertical-align:bottom; margin-left:.7em;">
+			<label>
+				<input type="radio" name="btnStyle" value="<%= styleVal %>" style="display:block;">
+				<span class="btn <%= styleVal %>" type="button"><%= styleLbl %></span>
+			</label>
+		</li>
+		*/}).toString().uHereDoc();
+		var _htmlBtnStyle = _.template(htmlBtnStyle);
+		$ulBtnStyle = $('<ul>');
+		for (var style_i = 0; style_i < _btnStyle.length; style_i++) {
+			$ulBtnStyle.append($(_htmlBtnStyle({
+				'styleVal': _btnStyle[style_i].value,
+				'styleLbl': _btnStyle[style_i].label
+			})));
+		}
+		rtn.append('<h3>btn-style</h3>').append($('<div class="bs-btnStyle">').append($ulBtnStyle));
+
+
+		// btn-size
+		var htmlBtnSize = (function() {/*
+		<li style="display:inline-block; vertical-align:bottom; margin-left:.7em;">
+			<label>
+				<input type="radio" name="btnSize" value="<%= sizeVal %>" size="display:block;">
+				<span class="btn btn-default <%= sizeVal %>" type="button"><%= sizeLbl %></span>
+			</label>
+		</li>
+		*/}).toString().uHereDoc();
+		var _htmlBtnSize = _.template(htmlBtnSize);
+		$ulBtnSize = $('<ul>');
+		for (var size_i = 0; size_i < _btnSize.length; size_i++) {
+			$ulBtnSize.append($(_htmlBtnSize({
+				'sizeVal': _btnSize[size_i].value,
+				'sizeLbl': _btnSize[size_i].label
+			})));
+		}
+		rtn.append('<h3>btn-size</h3>').append($('<div class="bs-btnSize">').append($ulBtnSize));
+
+		// btn-Block
+		var htmlBtnBlock = (function() {/*
+		<li style="list-style:none;">
+			<label style="display:block;">
+				<input type="radio" name="btnBlock" value="<%= blockVal %>" block="display:block;">
+				<span class="btn btn-default <%= blockVal %>" type="button"><%= blockLbl %></span>
+			</label>
+		</li>
+		*/}).toString().uHereDoc();
+		var _htmlBtnBlock = _.template(htmlBtnBlock);
+		$ulBtnBlock = $('<ul>');
+		for (var block_i = 0; block_i < _btnBlock.length; block_i++) {
+			$ulBtnBlock.append($(_htmlBtnBlock({
+				'blockVal': _btnBlock[block_i].value,
+				'blockLbl': _btnBlock[block_i].label
+			})));
+		}
+		rtn.append('<h3>btn-block</h3>').append($('<div class="bs-btnBlock">').append($ulBtnBlock));
+
+		$(elm).html(rtn);
+
+		// 描画後の処理
+		// btnType
+		var btnData = {};
+		if(data != null){
+			data.base64;
+		}
+		var _default_val = $('input[name="btnType"]').get(0).value;
+		var _checked_val =  btnData.btnType;
+		if(_checked_val !== _default_val){
+			$('input[name="btnType"][value="' + _default_val +'"]').prop('checked', true);
+		}else{
+			$('input[name="btnType"][value="' + _checked_val +'"]').prop('checked', true);
+		}
+		// btnStyle
+		_default_val = $('input[name="btnStyle"]').get(0).value;
+		_checked_val =  btnData.btnStyle;
+		if(_checked_val !== _default_val){
+			$('input[name="btnStyle"][value="' + _default_val +'"]').prop('checked', true);
+		}else{
+			$('input[name="btnStyle"][value="' + _checked_val +'"]').prop('checked', true);
+		}
+		// btnSize
+		_default_val = $('input[name="btnSize"]').get(0).value;
+		_checked_val =  btnData.btnSize;
+		if(_checked_val !== _default_val){
+			$('input[name="btnSize"][value="' + _default_val +'"]').prop('checked', true);
+		}else{
+			$('input[name="btnSize"][value="' + _checked_val +'"]').prop('checked', true);
+		}
+		// btnBlock
+		_default_val = $('input[name="btnBlock"]').get(0).value;
+		_checked_val =  btnData.btnBlock;
+		if(_checked_val !== _default_val){
+			$('input[name="btnBlock"][value="' + _default_val +'"]').prop('checked', true);
+		}else{
+			$('input[name="btnBlock"][value="' + _checked_val +'"]').prop('checked', true);
+		}
+
+		callback();
+		return;
+	}
+
+	/**
+	 * データを複製する
+	 */
+	this.duplicateData = function( data, callback ){
+		data = JSON.parse( JSON.stringify( data ) );
+		it79.fnc(
+			data,
+			[
+				function(it1, data){
+					_resMgr.duplicateResource( data.resKey, function(newResKey){
+						data.resKey = newResKey;
+						it1.next(data);
+					} );
+				} ,
+				function(it1, data){
+					_resMgr.getResourcePublicPath( data.resKey, function(publicPath){
+						data.PngPath = publicPath;
+						it1.next(data);
+					} );
+				} ,
+				function(it1, data){
+					callback(data);
+					it1.next(data);
+				}
+			]
+		);
+		return;
+	}// this.duplicateData
+
+	/**
+	 * エディタUIで編集した内容を保存
+	 */
+	this.saveEditorContent = function( elm, data, mod, callback ){
+		console.log('saveEditorContent');
+		var _this = this;
+		var resInfo;
+		var $dom = $(elm);
+		if( typeof(data) !== typeof({}) ){
+			data = {};
+		}
+		data.fields['btn-label'] = $dom.find('input[name="btnLabel"]').val();
+		data.fields['btn-action'] = $dom.find('textarea[name="btnAction"]').val();
+		data.fields['btn-type'] = $dom.find('input[name="btnType"]:checked').val();
+		data.fields['btn-style'] = $dom.find('input[name="btnStyle"]:checked').val();
+		data.fields['btn-size'] = $dom.find('input[name="btnSize"]:checked').val();
+		data.fields['btn-block'] = $dom.find('input[name="btnBlock"]:checked').val();
+		callback(data);
+	}// this.saveEditorContent()
+}
+
+},{"br-resouce":3,"iterate79":5,"m-log":6,"m-util":20,"phpjs":22,"underscore":23}],2:[function(require,module,exports){
+module.exports = function(broccoli){
+
+	require('m-util');
+	var it79 = require('iterate79');
+	var php = require('phpjs');
+	var resouce = require('br-resouce');
+	var mLog = require('m-log');
+	var _ = require('underscore');
+
+	var _resMgr = broccoli.resourceMgr;
 	var _icons = [{"value":"asterisk", "label":"&#x2a"},
 	{"value":"plus", "label":"&#x2b"},
 	{"value":"euro", "label":"&#x20ac"},
@@ -247,7 +517,7 @@ module.exports = function(broccoli){
 		if( typeof(fieldData) !== typeof({}) ){
 			rtn = {
 				"resKey":'',
-				"path":'about:blank'
+				"icon":''
 			};
 		}
 		return rtn;
@@ -258,28 +528,6 @@ module.exports = function(broccoli){
 	 */
 	this.mkEditor = function( mod, data, elm, callback ){
 		var rtn = $('<div>');
-
-		var link = [
-			'/libs/broccoli-bootstrap3-glyphicons-field/dist/css/bootstrap.min.css',
-			'/libs/broccoli-bootstrap3-glyphicons-field/dist/css/bootstrap-theme.min.css',
-			'/libs/broccoli-bootstrap3-glyphicons-field/dist/css/broccoli.css'
-		];
-		for(var link_i=0; link_i< link.length; link_i++){
-			var linktag = document.createElement('link');
-			linktag.rel = 'stylesheet';
-			linktag.href = link[link_i];
-			rtn.append(linktag);
-		}
-
-		var url = [
-			"/libs/broccoli-bootstrap3-glyphicons-field/dist/js/bootstrap.min.js"
-		];
-		for(var url_i=0; url_i< url.length; url_i++){
-			var script = document.createElement('script');
-			script.type = 'text/javascript';
-			script.src = url[url_i];
-			rtn.append(script);
-		}
 
 		var htmlIconList = (function() {/*
 		<li>
@@ -304,9 +552,14 @@ module.exports = function(broccoli){
 
 		// 描画後の処理
 		var _default_val = $('input[name="glyphicon"]').get(0).value;
-		var _checked_val = $('input[name="glyphicon"]:checked').val();
-		if(_checked_val === undefined){
+		var _checked_val =  data.icon;
+		console.log(_checked_val,  data.icon);
+		if(_checked_val !== _default_val){
+			console.log("none");
 			$('input[name="glyphicon"][value="' + _default_val +'"]').prop('checked', true);
+		}else{
+			console.log("exist");
+			$('input[name="glyphicon"][value="' + _checked_val +'"]').prop('checked', true);
 		}
 
 		callback();
@@ -379,7 +632,7 @@ module.exports = function(broccoli){
 				} ,
 				function(it1, data){
 						_resMgr.updateResource(data.resKey, resInfo, function(){
-							data.base64 = $dom.find('input[name="glyphicon"]:checked').val();
+							data.icon = $dom.find('input[name="glyphicon"]:checked').val();
 							it1.next(data);
 						});
 						return;
@@ -396,7 +649,7 @@ module.exports = function(broccoli){
 	}// this.saveEditorContent()
 }
 
-},{"br-resouce":2,"iterate79":4,"m-log":5,"m-util":19,"phpjs":21,"underscore":22}],2:[function(require,module,exports){
+},{"br-resouce":3,"iterate79":5,"m-log":6,"m-util":20,"phpjs":22,"underscore":23}],3:[function(require,module,exports){
 module.exports = function() {
   this.ext;
   this.type;
@@ -438,7 +691,7 @@ module.exports = function() {
   }
 }
 
-},{"m-util":19}],3:[function(require,module,exports){
+},{"m-util":20}],4:[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
@@ -503,7 +756,7 @@ process.chdir = function (dir) {
     throw new Error('process.chdir is not supported');
 };
 
-},{}],4:[function(require,module,exports){
+},{}],5:[function(require,module,exports){
 /**
  * node-iterate79
  */
@@ -579,10 +832,10 @@ process.chdir = function (dir) {
 
 })(exports);
 
-},{}],5:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 module.exports = require('./libs/log');
 
-},{"./libs/log":6}],6:[function(require,module,exports){
+},{"./libs/log":7}],7:[function(require,module,exports){
 module.exports = new(function() {
 
     'use strict';
@@ -752,7 +1005,7 @@ module.exports = new(function() {
     }
 })();
 
-},{"colors":11,"date-format":18}],7:[function(require,module,exports){
+},{"colors":12,"date-format":19}],8:[function(require,module,exports){
 /*
 
 The MIT License (MIT)
@@ -940,7 +1193,7 @@ for (var map in colors.maps) {
 }
 
 defineProps(colors, init());
-},{"./custom/trap":8,"./custom/zalgo":9,"./maps/america":12,"./maps/rainbow":13,"./maps/random":14,"./maps/zebra":15,"./styles":16,"./system/supports-colors":17}],8:[function(require,module,exports){
+},{"./custom/trap":9,"./custom/zalgo":10,"./maps/america":13,"./maps/rainbow":14,"./maps/random":15,"./maps/zebra":16,"./styles":17,"./system/supports-colors":18}],9:[function(require,module,exports){
 module['exports'] = function runTheTrap (text, options) {
   var result = "";
   text = text || "Run the trap, drop the bass";
@@ -987,7 +1240,7 @@ module['exports'] = function runTheTrap (text, options) {
 
 }
 
-},{}],9:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 // please no
 module['exports'] = function zalgo(text, options) {
   text = text || "   he is here   ";
@@ -1093,7 +1346,7 @@ module['exports'] = function zalgo(text, options) {
   return heComes(text, options);
 }
 
-},{}],10:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 var colors = require('./colors');
 
 module['exports'] = function () {
@@ -1207,7 +1460,7 @@ module['exports'] = function () {
   };
 
 };
-},{"./colors":7}],11:[function(require,module,exports){
+},{"./colors":8}],12:[function(require,module,exports){
 var colors = require('./colors');
 module['exports'] = colors;
 
@@ -1220,7 +1473,7 @@ module['exports'] = colors;
 //
 //
 require('./extendStringPrototype')();
-},{"./colors":7,"./extendStringPrototype":10}],12:[function(require,module,exports){
+},{"./colors":8,"./extendStringPrototype":11}],13:[function(require,module,exports){
 var colors = require('../colors');
 
 module['exports'] = (function() {
@@ -1233,7 +1486,7 @@ module['exports'] = (function() {
     }
   }
 })();
-},{"../colors":7}],13:[function(require,module,exports){
+},{"../colors":8}],14:[function(require,module,exports){
 var colors = require('../colors');
 
 module['exports'] = (function () {
@@ -1248,7 +1501,7 @@ module['exports'] = (function () {
 })();
 
 
-},{"../colors":7}],14:[function(require,module,exports){
+},{"../colors":8}],15:[function(require,module,exports){
 var colors = require('../colors');
 
 module['exports'] = (function () {
@@ -1257,13 +1510,13 @@ module['exports'] = (function () {
     return letter === " " ? letter : colors[available[Math.round(Math.random() * (available.length - 1))]](letter);
   };
 })();
-},{"../colors":7}],15:[function(require,module,exports){
+},{"../colors":8}],16:[function(require,module,exports){
 var colors = require('../colors');
 
 module['exports'] = function (letter, i, exploded) {
   return i % 2 === 0 ? letter : colors.inverse(letter);
 };
-},{"../colors":7}],16:[function(require,module,exports){
+},{"../colors":8}],17:[function(require,module,exports){
 /*
 The MIT License (MIT)
 
@@ -1341,7 +1594,7 @@ Object.keys(codes).forEach(function (key) {
   style.open = '\u001b[' + val[0] + 'm';
   style.close = '\u001b[' + val[1] + 'm';
 });
-},{}],17:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 (function (process){
 /*
 The MIT License (MIT)
@@ -1405,7 +1658,7 @@ module.exports = (function () {
   return false;
 })();
 }).call(this,require("DF1urx"))
-},{"DF1urx":3}],18:[function(require,module,exports){
+},{"DF1urx":4}],19:[function(require,module,exports){
 "use strict";
 
 module.exports = asString
@@ -1481,7 +1734,7 @@ function asString(/*format,*/ date) {
 
 };
 
-},{}],19:[function(require,module,exports){
+},{}],20:[function(require,module,exports){
 module.exports = new(function() {
 
   // ヒアドキュメント用
@@ -1587,7 +1840,7 @@ module.exports = new(function() {
   };
 })();
 
-},{}],20:[function(require,module,exports){
+},{}],21:[function(require,module,exports){
 (function (global){
 // This file is generated by `make build`. 
 // Do NOT edit by hand. 
@@ -14845,7 +15098,7 @@ exports.strtr = function (str, from, to) {
 };
 
 }).call(this,typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],21:[function(require,module,exports){
+},{}],22:[function(require,module,exports){
 (function (global){
 phpjs = require('./build/npm');
 
@@ -14858,7 +15111,7 @@ phpjs.registerGlobals = function() {
 module.exports = phpjs;
 
 }).call(this,typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./build/npm":20}],22:[function(require,module,exports){
+},{"./build/npm":21}],23:[function(require,module,exports){
 //     Underscore.js 1.8.3
 //     http://underscorejs.org
 //     (c) 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
@@ -16408,7 +16661,7 @@ module.exports = phpjs;
   }
 }.call(this));
 
-},{}],23:[function(require,module,exports){
+},{}],24:[function(require,module,exports){
 // console.log(broccoli);
 
 /**
@@ -16448,7 +16701,8 @@ window.main = new (function(){
 				'contents_area_selector': '[data-contents]',
 				'contents_bowl_name_by': 'data-contents',
 				'customFields': {
-					'Glyphicons': require('./../../../../libs/bootstrap3-glyphicons-client.js')
+					'Glyphicons': require('./../../../../libs/bootstrap3-glyphicons-client.js'),
+					'Button': require('./../../../../libs/bootstrap3-button-client.js')
 				},
 				'gpiBridge': function(api, options, callback){
 					// General Purpose Interface Bridge
@@ -16495,4 +16749,4 @@ window.main = new (function(){
 
 })();
 
-},{"./../../../../libs/bootstrap3-glyphicons-client.js":1,"iterate79":4}]},{},[23])
+},{"./../../../../libs/bootstrap3-button-client.js":1,"./../../../../libs/bootstrap3-glyphicons-client.js":2,"iterate79":5}]},{},[24])

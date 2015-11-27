@@ -246,7 +246,7 @@ module.exports = function(broccoli){
 		if( typeof(fieldData) !== typeof({}) ){
 			rtn = {
 				"resKey":'',
-				"path":'about:blank'
+				"icon":''
 			};
 		}
 		return rtn;
@@ -257,28 +257,6 @@ module.exports = function(broccoli){
 	 */
 	this.mkEditor = function( mod, data, elm, callback ){
 		var rtn = $('<div>');
-
-		var link = [
-			'/libs/broccoli-bootstrap3-glyphicons-field/dist/css/bootstrap.min.css',
-			'/libs/broccoli-bootstrap3-glyphicons-field/dist/css/bootstrap-theme.min.css',
-			'/libs/broccoli-bootstrap3-glyphicons-field/dist/css/broccoli.css'
-		];
-		for(var link_i=0; link_i< link.length; link_i++){
-			var linktag = document.createElement('link');
-			linktag.rel = 'stylesheet';
-			linktag.href = link[link_i];
-			rtn.append(linktag);
-		}
-
-		var url = [
-			"/libs/broccoli-bootstrap3-glyphicons-field/dist/js/bootstrap.min.js"
-		];
-		for(var url_i=0; url_i< url.length; url_i++){
-			var script = document.createElement('script');
-			script.type = 'text/javascript';
-			script.src = url[url_i];
-			rtn.append(script);
-		}
 
 		var htmlIconList = (function() {/*
 		<li>
@@ -303,9 +281,14 @@ module.exports = function(broccoli){
 
 		// 描画後の処理
 		var _default_val = $('input[name="glyphicon"]').get(0).value;
-		var _checked_val = $('input[name="glyphicon"]:checked').val();
-		if(_checked_val === undefined){
+		var _checked_val =  data.icon;
+		console.log(_checked_val,  data.icon);
+		if(_checked_val !== _default_val){
+			console.log("none");
 			$('input[name="glyphicon"][value="' + _default_val +'"]').prop('checked', true);
+		}else{
+			console.log("exist");
+			$('input[name="glyphicon"][value="' + _checked_val +'"]').prop('checked', true);
 		}
 
 		callback();
@@ -378,7 +361,7 @@ module.exports = function(broccoli){
 				} ,
 				function(it1, data){
 						_resMgr.updateResource(data.resKey, resInfo, function(){
-							data.base64 = $dom.find('input[name="glyphicon"]:checked').val();
+							data.icon = $dom.find('input[name="glyphicon"]:checked').val();
 							it1.next(data);
 						});
 						return;

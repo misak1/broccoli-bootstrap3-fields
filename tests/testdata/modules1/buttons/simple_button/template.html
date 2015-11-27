@@ -1,0 +1,43 @@
+{&
+    {"input":{"type":"html","name":"btn-label","rows":1,"hidden":true}}
+&}{&
+    {"input":{"type":"html_attr_text","name":"btn-action","rows":5,"hidden":true}}
+&}{&
+    {"input":{"type":"select", "name":"btn-type", "hidden":true, "options":[
+        {"value":"button", "label":"button"},
+        {"value":"submit", "label":"submit"},
+        {"value":"link", "label":"link"}
+    ]}}
+&}{&
+    {"input":{"type":"select", "name":"btn-style", "hidden":true, "options":[
+        {"value":"default", "label":"default"},
+        {"value":"primary", "label":"primary"},
+        {"value":"success", "label":"success"},
+        {"value":"info", "label":"info"},
+        {"value":"warning", "label":"warning"},
+        {"value":"danger", "label":"danger"},
+        {"value":"link", "label":"link"}
+    ]}}
+&}{&
+    {"input":{"type":"select", "name":"btn-size", "hidden":true, "options":[
+        {"value":"", "label":"default"},
+        {"value":" btn-lg", "label":"Large"},
+        {"value":" btn-sm", "label":"Small"},
+        {"value":" btn-xs", "label":"X-Small"}
+    ]}}
+&}{&
+    {"input":{"type":"select", "name":"btn-block", "hidden":true, "options":[
+        {"value":"", "label":"default"},
+        {"value":" btn-block", "label":"block"}
+    ]}}
+&}<{&{"if":{"cond":[["btn-type==link"]]}}&}a{&"endif"&}{&{"if":{"cond":[["btn-type!=link"]]}}&}button{&"endif"&} class="btn btn-{&
+    {"echo":{"ref":"btn-style"}}
+&}{&
+    {"echo":{"ref":"btn-size"}}
+&}{&
+    {"echo":{"ref":"btn-block"}}
+&}"{&
+    {"if":{"cond":[["btn-type==link"]]}}
+&} href="{&{"echo":{"ref":"btn-action"}}&}"{&"endif"&}{&
+    {"if":{"cond":[["btn-type!=link"]]}}
+&} type="{&{"echo":{"ref":"btn-type"}}&}" onclick="{&{"echo":{"ref":"btn-action"}}&}"{&"endif"&}>{&{"echo":{"ref":"btn-label"}}&}</{&{"if":{"cond":[["btn-type==link"]]}}&}a{&"endif"&}{&{"if":{"cond":[["btn-type!=link"]]}}&}button{&"endif"&}>

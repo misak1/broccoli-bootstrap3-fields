@@ -5,7 +5,9 @@
   "main": "libs/server.js",
   "scripts": {
     "up": "node ./node_modules/baobab-fw/lib/cmd/server.js",
+    "wipe": "cp data.json ./tests/testdata/htdocs/editpage/index_files/guieditor.ignore/data.json",
     "test": "mocha --ui tdd ./tests/"
+
   },
   "repository": {
     "type": "git",

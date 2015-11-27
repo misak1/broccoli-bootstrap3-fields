@@ -1,0 +1,18 @@
+{&{"input":{"type":"image","name":"image_src","hidden":true}}&}
+{&{"input":{"type":"html_attr_text","name":"alt_text","hidden":true,"rows":1}}&}
+{&{"input":{"type":"href","name":"href","hidden":true,"rows":1}}&}
+{&
+    {"input":{"type":"select", "name":"is-responsive", "hidden":true, "options":[
+        {"value":" img-responsive", "label":"Responsive Image"},
+        {"value":"", "label":"Normal Image"}
+    ]}}
+&}
+{&
+    {"input":{"type":"select", "name":"image-shapes", "hidden":true, "options":[
+        {"value":"", "label":"Normal Image"} ,
+        {"value":" img-rounded", "label":"rounded"},
+        {"value":" img-circle", "label":"circle"},
+        {"value":" img-thumbnail", "label":"thumbnail"}
+    ]}}
+&}
+{&{"if":{"is_set":"href"}}&}<a href="{&{"echo":{"ref":"href"}}&}">{&"endif"&}<img src="{&{"echo":{"ref":"image_src"}}&}" alt="{&{"echo":{"ref":"alt_text"}}&}" class="{&{"echo":{"ref":"is-responsive"}}&}{&{"echo":{"ref":"image-shapes"}}&}" />{&{"if":{"is_set":"href"}}&}</a>{&"endif"&}
