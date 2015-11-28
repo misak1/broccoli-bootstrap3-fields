@@ -8,21 +8,38 @@ var rename = require("gulp-rename");//ファイル名の置き換えを行う
 var twig = require("gulp-twig");//Twigテンプレートエンジン
 var browserify = require("gulp-browserify");//NodeJSのコードをブラウザ向けコードに変換
 var packageJson = require(__dirname+'/package.json');
+var stylus = require('gulp-stylus');
+var sourcemaps = require('gulp-sourcemaps');
+var rename = require("gulp-rename");  // rename
 var _tasks = [
-	'broccoli-bootstrap3-glyphicons-field.js',
+	'forYoungcornJS',
 	'test/main.js',
 	'copy',
+	'styl'
 ];
 
-// broccoli-bootstrap3-glyphicons-field.js (front側) を処理
-gulp.task("broccoli-bootstrap3-glyphicons-field.js", function() {
-	gulp.src(["src/broccoli-bootstrap3-glyphicons-field.js"])
+// bootstrap3-button-field.js (front側) を処理
+// gulp.task("bootstrap3-button-field.js", function() {
+// 	gulp.src(["src/bootstrap3-button-field.js"])
+// 		.pipe(plumber())
+// 		.pipe(browserify({}))
+// 		.pipe(concat('bootstrap3-button-field.js'))
+// 		.pipe(gulp.dest( './dist/' ))
+// 		.pipe(gulp.dest( './tests/testdata/htdocs/libs/' ))
+// 		// .pipe(concat('bootstrap3-button-field.min.js'))
+// 		.pipe(rename({extname: '.min.js'}))
+// 		.pipe(uglify())
+// 		.pipe(gulp.dest( './dist/' ))
+// 		.pipe(gulp.dest( './tests/testdata/htdocs/libs/' ))
+// 	;
+// });
+gulp.task("forYoungcornJS", function() {
+	gulp.src(["src/*.js"])
 		.pipe(plumber())
 		.pipe(browserify({}))
-		.pipe(concat('broccoli-bootstrap3-glyphicons-field.js'))
 		.pipe(gulp.dest( './dist/' ))
 		.pipe(gulp.dest( './tests/testdata/htdocs/libs/' ))
-		.pipe(concat('broccoli-bootstrap3-glyphicons-field.min.js'))
+		.pipe(rename({extname: '.min.js'}))
 		.pipe(uglify())
 		.pipe(gulp.dest( './dist/' ))
 		.pipe(gulp.dest( './tests/testdata/htdocs/libs/' ))
@@ -52,6 +69,15 @@ gulp.task("copy", function() {
 		.pipe(gulp.dest( './tests/testdata/htdocs/libs/bs3/fonts/')) // テスト用
 		.pipe(gulp.dest( './dist/fonts/' )) // 本番用
 	;
+});
+
+// css
+gulp.task('styl', function () {
+  gulp.src('libs/css/bootstrap4broccoli.styl')
+    .pipe(stylus({
+      compress: true
+    }))
+    .pipe(gulp.dest('libs/css/'));
 });
 
 // src 中のすべての拡張子を監視して処理

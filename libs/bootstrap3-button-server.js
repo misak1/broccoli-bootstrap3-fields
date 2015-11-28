@@ -7,19 +7,18 @@ module.exports = function(broccoli) {
   var util = require('util');
   var _ = require('underscore');
   var fs = require('fs-extra');
-
   var it79 = require('iterate79');
   var php = require('phpjs');
   var _resMgr = broccoli.resourceMgr;
   var _this = this;
   var _button = '<button class="btn btn-default" type="button" onclick="(ダブルクリックしてテキストを編集してください)"><span style="color:#999;background-color:#ddd;font-size:10px;padding:0 1em;max-width:100%;overflow:hidden;white-space:nowrap;">(ダブルクリックしてHTMLコードを編集してください)</span></button>';
-
+  require('./bootstrap3-button-var.js');
 
   // <Server Side> |  Client Side
   // --------------+-------------------
   // bind          |
-  // mkPreviewHtml | mkPreviewHtml
-  // normalizeData | normalizeData
+  //               | mkPreviewHtml
+  //               | normalizeData
   //               | mkEditor
   //               | duplicateData
   //               | saveEditorContent
@@ -33,14 +32,23 @@ module.exports = function(broccoli) {
     if (typeof(fieldData) === typeof({})) {
       rtn = fieldData;
     }
-    // console.log('mode', mode);
     it79.fnc({}, [
       function(it1, data) {
         console.log('rtn', rtn);
         _resMgr.getResource(rtn.resKey, function(res) {
-          if(rtn.base64 == null) rtn.base64 = _button;
-          if (mode == 'canvas') {
-            rtn.html = rtn.base64;
+          if(rtn.html == null) rtn.html = _button;
+          if (mode == 'canvas'){
+            var htmlBtn = '<button type="button" class="btn <%= btnClass %>"><%= btnText %></button>';
+            if(rtn.fields['btn-type'] === 'link'){
+              htmlBtn = '<a href="url" class="<%= btnClass %>"><%= btnText %></a>';
+            }
+            var _htmlBtn = _.template(htmlBtn);
+            var html = _htmlBtn({
+                'btnClass': rtn.fields['btn-style'] + rtn.fields['btn-size'] + rtn.fields['btn-block'],
+                'btnText':rtn.fields['btn-label']
+              });
+            rtn.html = html
+            console.log(html);
           }
           it1.next(data);
           return;
@@ -52,34 +60,6 @@ module.exports = function(broccoli) {
       }
     ]);
     return;
-  }
-
-  /**
-   * プレビュー用の簡易なHTMLを生成する
-   */
-  this.mkPreviewHtml = function(fieldData, mod, callback) {
-    console.log('mkPreviewHtml', 'server');
-    var rtn = {}
-    if (typeof(fieldData) === typeof({})) {
-      rtn = fieldData;
-    }
-    _resMgr.getResource(rtn.resKeyEditPng, function(res) {
-      callback(rtn.get(0).outerHTML);
-    });
-    return;
-  }
-
-  /**
-   * データを正規化する
-   */
-  this.normalizeData = function(fieldData, mode) {
-    var rtn = fieldData;
-    if (typeof(fieldData) !== typeof({})) {
-      rtn = {
-        "resKey":''
-      };
-    }
-    return rtn;
   }
 
   /**

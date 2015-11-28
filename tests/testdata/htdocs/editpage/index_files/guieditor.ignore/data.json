@@ -16,12 +16,12 @@
       "fields": {
        "Button": {
         "fields": {
-         "btn-label": "",
-         "btn-type": "button",
-         "btn-style": "btn-info",
-         "btn-size": " btn-sm",
-         "btn-block": "",
-         "btn-action": ""
+         "btn-label": "ボタンテキスト",
+         "btn-action": "",
+         "btn-type": "submit",
+         "btn-style": " btn-warning",
+         "btn-size": " btn-lg",
+         "btn-block": ""
         }
        }
       }
@@ -32,7 +32,19 @@
   "secondly": {
    "modId": "_sys/root",
    "fields": {
-    "main": []
+    "main": [
+     {
+      "modId": "testMod1:buttons/simple_button",
+      "fields": {
+       "btn-label": "77989",
+       "btn-action": "878",
+       "btn-type": "button",
+       "btn-style": "info",
+       "btn-size": "",
+       "btn-block": ""
+      }
+     }
+    ]
    }
   }
  }

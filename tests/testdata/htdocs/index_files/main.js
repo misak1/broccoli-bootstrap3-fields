@@ -7,35 +7,8 @@ module.exports = function(broccoli){
 	var resouce = require('br-resouce');
 	var mLog = require('m-log');
 	var _ = require('underscore');
-
+	require('./bootstrap3-button-var.js');
 	var _resMgr = broccoli.resourceMgr;
-
-	var _btnLabel = "";
-	var _btnAction = "";
-	var _btnType = [
-		{"value":"button", "label":"&lt;button type=&quot;button&quot;&gt;text&lt;/button&gt;"},
-		{"value":"submit", "label":"&lt;button type=&quot;submit&quot;&gt;text&lt;/button&gt;"},
-		{"value":"link", "label":"&lt;a href=&quot;url&quot;&gt;text&lt;/a&gt;"}
-	];
-	var _btnStyle = [
-		{"value":"btn-default", "label":"default"},
-		{"value":"btn-primary", "label":"primary"},
-		{"value":"btn-success", "label":"success"},
-		{"value":"btn-info", "label":"info"},
-		{"value":"btn-warning", "label":"warning"},
-		{"value":"btn-danger", "label":"danger"},
-		{"value":"btn-link", "label":"link"}
-	];
-	var _btnSize = [
-		{"value":"", "label":"default"},
-		{"value":" btn-lg", "label":"Large"},
-		{"value":" btn-sm", "label":"Small"},
-		{"value":" btn-xs", "label":"X-Small"}
-	];
-	var _btnBlock = [
-		{"value":"", "label":"default(inline)"},
-		{"value":" btn-block", "label":"block"}
-	];
 	var _this = this;
 
 
@@ -72,12 +45,12 @@ module.exports = function(broccoli){
 		if( typeof(fieldData) !== typeof({}) ){
 			rtn = {
 				"fields":{
-					"btn-label": "",
-					"btn-action": "",
-					"btn-type": "",
-					"btn-style": "",
-					"btn-size": "",
-					"btn-block": ""
+					"btn-label": _btnLabel,
+					"btn-action": _btnAction,
+					"btn-type": _btnType[0].value,
+					"btn-style" :_btnStyle[0].value,
+					"btn-size": _btnSize[0].value,
+					"btn-block": _btnBlock[0].value
 				}
 			};
 		}
@@ -88,8 +61,8 @@ module.exports = function(broccoli){
 	 * エディタUIを生成
 	 */
 	this.mkEditor = function( mod, data, elm, callback ){
-		var rtn = $('<div>');
-
+		var rtn = $('<div class="bs3-button-field">');
+console.log('data', data);
 		// btn-label
 		rtn.append('<h3>btn-label</h3>').append($('<div class="bs-btnLabel">').append($('<input type="text" name="btnLabel">')));
 
@@ -177,41 +150,38 @@ module.exports = function(broccoli){
 		$(elm).html(rtn);
 
 		// 描画後の処理
-		// btnType
-		var btnData = {};
-		if(data != null){
-			data.base64;
-		}
+		$('input[name="btnLabel"]').val(data.fields['btn-label']);
+		$('textarea[name="btnAction"]').val(data.fields['btn-action']);
 		var _default_val = $('input[name="btnType"]').get(0).value;
-		var _checked_val =  btnData.btnType;
+		var _checked_val = data.fields['btn-type'];
 		if(_checked_val !== _default_val){
-			$('input[name="btnType"][value="' + _default_val +'"]').prop('checked', true);
-		}else{
 			$('input[name="btnType"][value="' + _checked_val +'"]').prop('checked', true);
+		}else{
+			$('input[name="btnType"][value="' + _default_val +'"]').prop('checked', true);
 		}
 		// btnStyle
 		_default_val = $('input[name="btnStyle"]').get(0).value;
-		_checked_val =  btnData.btnStyle;
+		_checked_val = data.fields['btn-style'];
 		if(_checked_val !== _default_val){
-			$('input[name="btnStyle"][value="' + _default_val +'"]').prop('checked', true);
-		}else{
 			$('input[name="btnStyle"][value="' + _checked_val +'"]').prop('checked', true);
+		}else{
+			$('input[name="btnStyle"][value="' + _default_val +'"]').prop('checked', true);
 		}
 		// btnSize
 		_default_val = $('input[name="btnSize"]').get(0).value;
-		_checked_val =  btnData.btnSize;
+		_checked_val = data.fields['btn-size'];
 		if(_checked_val !== _default_val){
-			$('input[name="btnSize"][value="' + _default_val +'"]').prop('checked', true);
-		}else{
 			$('input[name="btnSize"][value="' + _checked_val +'"]').prop('checked', true);
+		}else{
+			$('input[name="btnSize"][value="' + _default_val +'"]').prop('checked', true);
 		}
 		// btnBlock
 		_default_val = $('input[name="btnBlock"]').get(0).value;
-		_checked_val =  btnData.btnBlock;
+		_checked_val = data.fields['btn-block'];
 		if(_checked_val !== _default_val){
-			$('input[name="btnBlock"][value="' + _default_val +'"]').prop('checked', true);
-		}else{
 			$('input[name="btnBlock"][value="' + _checked_val +'"]').prop('checked', true);
+		}else{
+			$('input[name="btnBlock"][value="' + _default_val +'"]').prop('checked', true);
 		}
 
 		callback();
@@ -268,7 +238,56 @@ module.exports = function(broccoli){
 	}// this.saveEditorContent()
 }
 
-},{"br-resouce":3,"iterate79":5,"m-log":6,"m-util":20,"phpjs":22,"underscore":23}],2:[function(require,module,exports){
+},{"./bootstrap3-button-var.js":2,"br-resouce":4,"iterate79":6,"m-log":7,"m-util":21,"phpjs":23,"underscore":24}],2:[function(require,module,exports){
+module.exports = new(function() {
+  _btnLabel = "ボタンテキスト";
+	_btnAction = "";
+	_btnType = [
+		{"value":"button", "label":"&lt;button type=&quot;button&quot;&gt;text&lt;/button&gt;"},
+		{"value":"submit", "label":"&lt;button type=&quot;submit&quot;&gt;text&lt;/button&gt;"},
+		{"value":"link", "label":"&lt;a href=&quot;url&quot;&gt;text&lt;/a&gt;"}
+	];
+	_btnStyle = [
+		{"value":" btn-default", "label":"default"},
+		{"value":" btn-primary", "label":"primary"},
+		{"value":" btn-success", "label":"success"},
+		{"value":" btn-info", "label":"info"},
+		{"value":" btn-warning", "label":"warning"},
+		{"value":" btn-danger", "label":"danger"},
+		{"value":" btn-link", "label":"link"}
+	];
+	_btnSize = [
+		{"value":"", "label":"default"},
+		{"value":" btn-lg", "label":"Large"},
+		{"value":" btn-sm", "label":"Small"},
+		{"value":" btn-xs", "label":"X-Small"}
+	];
+	_btnBlock = [
+		{"value":"", "label":"default(inline)"},
+		{"value":" btn-block", "label":"block"}
+	];
+
+  // valueの対になるlabelを返す
+  searchLabel = function(objects, strValue){
+    for(var i=0; i<objects.length; i++) {
+      if(objects[i].value === strValue) {
+        return objects[i].label;
+        break;
+      }
+    }
+  }
+  // labelの対になるvalueを返す
+  searchValue = function(objects, strLabel){
+    for(var i=0; i<objects.length; i++) {
+      if(objects[i].label === strLabel) {
+        return objects[i].value;
+        break;
+      }
+    }
+  }
+})();
+
+},{}],3:[function(require,module,exports){
 module.exports = function(broccoli){
 
 	require('m-util');
@@ -649,7 +668,7 @@ module.exports = function(broccoli){
 	}// this.saveEditorContent()
 }
 
-},{"br-resouce":3,"iterate79":5,"m-log":6,"m-util":20,"phpjs":22,"underscore":23}],3:[function(require,module,exports){
+},{"br-resouce":4,"iterate79":6,"m-log":7,"m-util":21,"phpjs":23,"underscore":24}],4:[function(require,module,exports){
 module.exports = function() {
   this.ext;
   this.type;
@@ -691,7 +710,7 @@ module.exports = function() {
   }
 }
 
-},{"m-util":20}],4:[function(require,module,exports){
+},{"m-util":21}],5:[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
@@ -756,7 +775,7 @@ process.chdir = function (dir) {
     throw new Error('process.chdir is not supported');
 };
 
-},{}],5:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 /**
  * node-iterate79
  */
@@ -832,10 +851,10 @@ process.chdir = function (dir) {
 
 })(exports);
 
-},{}],6:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 module.exports = require('./libs/log');
 
-},{"./libs/log":7}],7:[function(require,module,exports){
+},{"./libs/log":8}],8:[function(require,module,exports){
 module.exports = new(function() {
 
     'use strict';
@@ -1005,7 +1024,7 @@ module.exports = new(function() {
     }
 })();
 
-},{"colors":12,"date-format":19}],8:[function(require,module,exports){
+},{"colors":13,"date-format":20}],9:[function(require,module,exports){
 /*
 
 The MIT License (MIT)
@@ -1193,7 +1212,7 @@ for (var map in colors.maps) {
 }
 
 defineProps(colors, init());
-},{"./custom/trap":9,"./custom/zalgo":10,"./maps/america":13,"./maps/rainbow":14,"./maps/random":15,"./maps/zebra":16,"./styles":17,"./system/supports-colors":18}],9:[function(require,module,exports){
+},{"./custom/trap":10,"./custom/zalgo":11,"./maps/america":14,"./maps/rainbow":15,"./maps/random":16,"./maps/zebra":17,"./styles":18,"./system/supports-colors":19}],10:[function(require,module,exports){
 module['exports'] = function runTheTrap (text, options) {
   var result = "";
   text = text || "Run the trap, drop the bass";
@@ -1240,7 +1259,7 @@ module['exports'] = function runTheTrap (text, options) {
 
 }
 
-},{}],10:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 // please no
 module['exports'] = function zalgo(text, options) {
   text = text || "   he is here   ";
@@ -1346,7 +1365,7 @@ module['exports'] = function zalgo(text, options) {
   return heComes(text, options);
 }
 
-},{}],11:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
 var colors = require('./colors');
 
 module['exports'] = function () {
@@ -1460,7 +1479,7 @@ module['exports'] = function () {
   };
 
 };
-},{"./colors":8}],12:[function(require,module,exports){
+},{"./colors":9}],13:[function(require,module,exports){
 var colors = require('./colors');
 module['exports'] = colors;
 
@@ -1473,7 +1492,7 @@ module['exports'] = colors;
 //
 //
 require('./extendStringPrototype')();
-},{"./colors":8,"./extendStringPrototype":11}],13:[function(require,module,exports){
+},{"./colors":9,"./extendStringPrototype":12}],14:[function(require,module,exports){
 var colors = require('../colors');
 
 module['exports'] = (function() {
@@ -1486,7 +1505,7 @@ module['exports'] = (function() {
     }
   }
 })();
-},{"../colors":8}],14:[function(require,module,exports){
+},{"../colors":9}],15:[function(require,module,exports){
 var colors = require('../colors');
 
 module['exports'] = (function () {
@@ -1501,7 +1520,7 @@ module['exports'] = (function () {
 })();
 
 
-},{"../colors":8}],15:[function(require,module,exports){
+},{"../colors":9}],16:[function(require,module,exports){
 var colors = require('../colors');
 
 module['exports'] = (function () {
@@ -1510,13 +1529,13 @@ module['exports'] = (function () {
     return letter === " " ? letter : colors[available[Math.round(Math.random() * (available.length - 1))]](letter);
   };
 })();
-},{"../colors":8}],16:[function(require,module,exports){
+},{"../colors":9}],17:[function(require,module,exports){
 var colors = require('../colors');
 
 module['exports'] = function (letter, i, exploded) {
   return i % 2 === 0 ? letter : colors.inverse(letter);
 };
-},{"../colors":8}],17:[function(require,module,exports){
+},{"../colors":9}],18:[function(require,module,exports){
 /*
 The MIT License (MIT)
 
@@ -1594,7 +1613,7 @@ Object.keys(codes).forEach(function (key) {
   style.open = '\u001b[' + val[0] + 'm';
   style.close = '\u001b[' + val[1] + 'm';
 });
-},{}],18:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
 (function (process){
 /*
 The MIT License (MIT)
@@ -1658,7 +1677,7 @@ module.exports = (function () {
   return false;
 })();
 }).call(this,require("DF1urx"))
-},{"DF1urx":4}],19:[function(require,module,exports){
+},{"DF1urx":5}],20:[function(require,module,exports){
 "use strict";
 
 module.exports = asString
@@ -1734,7 +1753,7 @@ function asString(/*format,*/ date) {
 
 };
 
-},{}],20:[function(require,module,exports){
+},{}],21:[function(require,module,exports){
 module.exports = new(function() {
 
   // ヒアドキュメント用
@@ -1840,7 +1859,7 @@ module.exports = new(function() {
   };
 })();
 
-},{}],21:[function(require,module,exports){
+},{}],22:[function(require,module,exports){
 (function (global){
 // This file is generated by `make build`. 
 // Do NOT edit by hand. 
@@ -15098,7 +15117,7 @@ exports.strtr = function (str, from, to) {
 };
 
 }).call(this,typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],22:[function(require,module,exports){
+},{}],23:[function(require,module,exports){
 (function (global){
 phpjs = require('./build/npm');
 
@@ -15111,7 +15130,7 @@ phpjs.registerGlobals = function() {
 module.exports = phpjs;
 
 }).call(this,typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./build/npm":21}],23:[function(require,module,exports){
+},{"./build/npm":22}],24:[function(require,module,exports){
 //     Underscore.js 1.8.3
 //     http://underscorejs.org
 //     (c) 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
@@ -16661,7 +16680,7 @@ module.exports = phpjs;
   }
 }.call(this));
 
-},{}],24:[function(require,module,exports){
+},{}],25:[function(require,module,exports){
 // console.log(broccoli);
 
 /**
@@ -16749,4 +16768,4 @@ window.main = new (function(){
 
 })();
 
-},{"./../../../../libs/bootstrap3-button-client.js":1,"./../../../../libs/bootstrap3-glyphicons-client.js":2,"iterate79":5}]},{},[24])
+},{"./../../../../libs/bootstrap3-button-client.js":1,"./../../../../libs/bootstrap3-glyphicons-client.js":3,"iterate79":6}]},{},[25])

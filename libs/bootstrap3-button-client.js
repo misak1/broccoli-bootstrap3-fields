@@ -6,35 +6,8 @@ module.exports = function(broccoli){
 	var resouce = require('br-resouce');
 	var mLog = require('m-log');
 	var _ = require('underscore');
-
+	require('./bootstrap3-button-var.js');
 	var _resMgr = broccoli.resourceMgr;
-
-	var _btnLabel = "";
-	var _btnAction = "";
-	var _btnType = [
-		{"value":"button", "label":"&lt;button type=&quot;button&quot;&gt;text&lt;/button&gt;"},
-		{"value":"submit", "label":"&lt;button type=&quot;submit&quot;&gt;text&lt;/button&gt;"},
-		{"value":"link", "label":"&lt;a href=&quot;url&quot;&gt;text&lt;/a&gt;"}
-	];
-	var _btnStyle = [
-		{"value":"btn-default", "label":"default"},
-		{"value":"btn-primary", "label":"primary"},
-		{"value":"btn-success", "label":"success"},
-		{"value":"btn-info", "label":"info"},
-		{"value":"btn-warning", "label":"warning"},
-		{"value":"btn-danger", "label":"danger"},
-		{"value":"btn-link", "label":"link"}
-	];
-	var _btnSize = [
-		{"value":"", "label":"default"},
-		{"value":" btn-lg", "label":"Large"},
-		{"value":" btn-sm", "label":"Small"},
-		{"value":" btn-xs", "label":"X-Small"}
-	];
-	var _btnBlock = [
-		{"value":"", "label":"default(inline)"},
-		{"value":" btn-block", "label":"block"}
-	];
 	var _this = this;
 
 
@@ -71,12 +44,12 @@ module.exports = function(broccoli){
 		if( typeof(fieldData) !== typeof({}) ){
 			rtn = {
 				"fields":{
-					"btn-label": "",
-					"btn-action": "",
-					"btn-type": _btnType.[0].value,
-					"btn-style" :_btnStyle.[0].value,
-					"btn-size": _btnSize.[0].value,
-					"btn-block": _btnBlock.[0].value
+					"btn-label": _btnLabel,
+					"btn-action": _btnAction,
+					"btn-type": _btnType[0].value,
+					"btn-style" :_btnStyle[0].value,
+					"btn-size": _btnSize[0].value,
+					"btn-block": _btnBlock[0].value
 				}
 			};
 		}
@@ -87,8 +60,8 @@ module.exports = function(broccoli){
 	 * エディタUIを生成
 	 */
 	this.mkEditor = function( mod, data, elm, callback ){
-		var rtn = $('<div>');
-
+		var rtn = $('<div class="bs3-button-field">');
+console.log('data', data);
 		// btn-label
 		rtn.append('<h3>btn-label</h3>').append($('<div class="bs-btnLabel">').append($('<input type="text" name="btnLabel">')));
 
@@ -176,36 +149,38 @@ module.exports = function(broccoli){
 		$(elm).html(rtn);
 
 		// 描画後の処理
+		$('input[name="btnLabel"]').val(data.fields['btn-label']);
+		$('textarea[name="btnAction"]').val(data.fields['btn-action']);
 		var _default_val = $('input[name="btnType"]').get(0).value;
 		var _checked_val = data.fields['btn-type'];
 		if(_checked_val !== _default_val){
-			$('input[name="btnType"][value="' + _default_val +'"]').prop('checked', true);
-		}else{
 			$('input[name="btnType"][value="' + _checked_val +'"]').prop('checked', true);
+		}else{
+			$('input[name="btnType"][value="' + _default_val +'"]').prop('checked', true);
 		}
 		// btnStyle
 		_default_val = $('input[name="btnStyle"]').get(0).value;
 		_checked_val = data.fields['btn-style'];
 		if(_checked_val !== _default_val){
-			$('input[name="btnStyle"][value="' + _default_val +'"]').prop('checked', true);
-		}else{
 			$('input[name="btnStyle"][value="' + _checked_val +'"]').prop('checked', true);
+		}else{
+			$('input[name="btnStyle"][value="' + _default_val +'"]').prop('checked', true);
 		}
 		// btnSize
 		_default_val = $('input[name="btnSize"]').get(0).value;
 		_checked_val = data.fields['btn-size'];
 		if(_checked_val !== _default_val){
-			$('input[name="btnSize"][value="' + _default_val +'"]').prop('checked', true);
-		}else{
 			$('input[name="btnSize"][value="' + _checked_val +'"]').prop('checked', true);
+		}else{
+			$('input[name="btnSize"][value="' + _default_val +'"]').prop('checked', true);
 		}
 		// btnBlock
 		_default_val = $('input[name="btnBlock"]').get(0).value;
 		_checked_val = data.fields['btn-block'];
 		if(_checked_val !== _default_val){
-			$('input[name="btnBlock"][value="' + _default_val +'"]').prop('checked', true);
-		}else{
 			$('input[name="btnBlock"][value="' + _checked_val +'"]').prop('checked', true);
+		}else{
+			$('input[name="btnBlock"][value="' + _default_val +'"]').prop('checked', true);
 		}
 
 		callback();
