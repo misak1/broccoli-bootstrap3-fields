@@ -12,47 +12,13 @@
       }
      },
      {
-      "modId": "testMod1:buttons/Button",
+      "modId": "testMod1:alerts/Alert",
       "fields": {
-       "Button": {
+       "Alert": {
         "fields": {
-         "btn-label": "ボタンテキスト",
-         "btn-action": "",
-         "btn-type": "submit",
-         "btn-style": " btn-warning",
-         "btn-size": " btn-lg",
-         "btn-block": ""
-        }
-       }
-      }
-     },
-     {
-      "modId": "testMod1:icon/Badge",
-      "fields": {
-       "Badge": {
-        "fields": {
-         "badge-label": "333"
-        }
-       }
-      }
-     },
-     {
-      "modId": "testMod1:icon/Labels",
-      "fields": {
-       "Labels": {
-        "fields": {
-         "label-label": "New3",
-         "label-style": " label-success"
-        }
-       }
-      }
-     },
-     {
-      "modId": "testMod1:icon/Badge",
-      "fields": {
-       "Badge": {
-        "fields": {
-         "badge-label": "551"
+         "alert-title": "赤",
+         "alert-message": "めっさ",
+         "alert-style": " alert-info"
         }
        }
       }
@@ -63,19 +29,7 @@
   "secondly": {
    "modId": "_sys/root",
    "fields": {
-    "main": [
-     {
-      "modId": "testMod1:buttons/simple_button",
-      "fields": {
-       "btn-label": "77989",
-       "btn-action": "878",
-       "btn-type": "button",
-       "btn-style": "info",
-       "btn-size": "",
-       "btn-block": ""
-      }
-     }
-    ]
+    "main": []
    }
   }
  }

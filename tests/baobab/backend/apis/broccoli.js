@@ -28,7 +28,8 @@ module.exports = function( data, callback, main, socket ){
 						'Glyphicons': require('./../../../../libs/bootstrap3-glyphicons-server.js'),
 						'Button': require('./../../../../libs/bootstrap3-button-server.js'),
 						'Badge': require('./../../../../libs/bootstrap3-badge-server.js'),
-						'Labels': require('./../../../../libs/bootstrap3-labels-server.js')
+						'Labels': require('./../../../../libs/bootstrap3-labels-server.js'),
+						'Alert': require('./../../../../libs/bootstrap3-alert-server.js')
 					} ,
 					'bindTemplate': function(htmls, callback){
 						var fin = '';
