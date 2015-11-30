@@ -18,7 +18,30 @@
         "fields": {
          "alert-title": "赤",
          "alert-message": "めっさ",
-         "alert-style": " alert-info"
+         "alert-style": " alert-danger"
+        }
+       }
+      }
+     },
+     {
+      "modId": "testMod1:alerts/Alert",
+      "fields": {
+       "Alert": {
+        "fields": {
+         "alert-title": "Well done!",
+         "alert-message": "You successfully read this important alert message.",
+         "alert-style": " alert-warning"
+        }
+       }
+      }
+     },
+     {
+      "modId": "testMod1:icon/Labels",
+      "fields": {
+       "Labels": {
+        "fields": {
+         "label-label": "サクセス",
+         "label-style": " label-danger"
         }
        }
       }
