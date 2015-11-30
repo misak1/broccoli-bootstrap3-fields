@@ -37,11 +37,22 @@
       }
      },
      {
+      "modId": "testMod1:icon/Labels",
+      "fields": {
+       "Labels": {
+        "fields": {
+         "label-label": "New3",
+         "label-style": " label-success"
+        }
+       }
+      }
+     },
+     {
       "modId": "testMod1:icon/Badge",
       "fields": {
        "Badge": {
         "fields": {
-         "badge-label": "１"
+         "badge-label": "551"
         }
        }
       }

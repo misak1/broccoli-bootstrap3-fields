@@ -7,8 +7,7 @@ module.exports = function(broccoli){
 	var resouce = require('br-resouce');
 	var mLog = require('m-log');
 	var _ = require('underscore');
-	// require('./bootstrap3-button-var.js');
-	var _badgeLabel = 'new';
+	require('./bootstrap3-badge-var.js');
 	var _resMgr = broccoli.resourceMgr;
 	var _this = this;
 
@@ -106,7 +105,31 @@ console.log('data', data);
 	}// this.saveEditorContent()
 }
 
-},{"br-resouce":2,"iterate79":4,"m-log":5,"m-util":19,"phpjs":21,"underscore":22}],2:[function(require,module,exports){
+},{"./bootstrap3-badge-var.js":2,"br-resouce":3,"iterate79":5,"m-log":6,"m-util":20,"phpjs":22,"underscore":23}],2:[function(require,module,exports){
+module.exports = new(function() {
+  _badgeLabel = '1';
+
+  // valueの対になるlabelを返す
+  // searchLabel = function(objects, strValue){
+  //   for(var i=0; i<objects.length; i++) {
+  //     if(objects[i].value === strValue) {
+  //       return objects[i].label;
+  //       break;
+  //     }
+  //   }
+  // }
+  // // labelの対になるvalueを返す
+  // searchValue = function(objects, strLabel){
+  //   for(var i=0; i<objects.length; i++) {
+  //     if(objects[i].label === strLabel) {
+  //       return objects[i].value;
+  //       break;
+  //     }
+  //   }
+  // }
+})();
+
+},{}],3:[function(require,module,exports){
 module.exports = function() {
   this.ext;
   this.type;
@@ -148,7 +171,7 @@ module.exports = function() {
   }
 }
 
-},{"m-util":19}],3:[function(require,module,exports){
+},{"m-util":20}],4:[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
@@ -213,7 +236,7 @@ process.chdir = function (dir) {
     throw new Error('process.chdir is not supported');
 };
 
-},{}],4:[function(require,module,exports){
+},{}],5:[function(require,module,exports){
 /**
  * node-iterate79
  */
@@ -289,10 +312,10 @@ process.chdir = function (dir) {
 
 })(exports);
 
-},{}],5:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 module.exports = require('./libs/log');
 
-},{"./libs/log":6}],6:[function(require,module,exports){
+},{"./libs/log":7}],7:[function(require,module,exports){
 module.exports = new(function() {
 
     'use strict';
@@ -462,7 +485,7 @@ module.exports = new(function() {
     }
 })();
 
-},{"colors":11,"date-format":18}],7:[function(require,module,exports){
+},{"colors":12,"date-format":19}],8:[function(require,module,exports){
 /*
 
 The MIT License (MIT)
@@ -650,7 +673,7 @@ for (var map in colors.maps) {
 }
 
 defineProps(colors, init());
-},{"./custom/trap":8,"./custom/zalgo":9,"./maps/america":12,"./maps/rainbow":13,"./maps/random":14,"./maps/zebra":15,"./styles":16,"./system/supports-colors":17}],8:[function(require,module,exports){
+},{"./custom/trap":9,"./custom/zalgo":10,"./maps/america":13,"./maps/rainbow":14,"./maps/random":15,"./maps/zebra":16,"./styles":17,"./system/supports-colors":18}],9:[function(require,module,exports){
 module['exports'] = function runTheTrap (text, options) {
   var result = "";
   text = text || "Run the trap, drop the bass";
@@ -697,7 +720,7 @@ module['exports'] = function runTheTrap (text, options) {
 
 }
 
-},{}],9:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 // please no
 module['exports'] = function zalgo(text, options) {
   text = text || "   he is here   ";
@@ -803,7 +826,7 @@ module['exports'] = function zalgo(text, options) {
   return heComes(text, options);
 }
 
-},{}],10:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 var colors = require('./colors');
 
 module['exports'] = function () {
@@ -917,7 +940,7 @@ module['exports'] = function () {
   };
 
 };
-},{"./colors":7}],11:[function(require,module,exports){
+},{"./colors":8}],12:[function(require,module,exports){
 var colors = require('./colors');
 module['exports'] = colors;
 
@@ -930,7 +953,7 @@ module['exports'] = colors;
 //
 //
 require('./extendStringPrototype')();
-},{"./colors":7,"./extendStringPrototype":10}],12:[function(require,module,exports){
+},{"./colors":8,"./extendStringPrototype":11}],13:[function(require,module,exports){
 var colors = require('../colors');
 
 module['exports'] = (function() {
@@ -943,7 +966,7 @@ module['exports'] = (function() {
     }
   }
 })();
-},{"../colors":7}],13:[function(require,module,exports){
+},{"../colors":8}],14:[function(require,module,exports){
 var colors = require('../colors');
 
 module['exports'] = (function () {
@@ -958,7 +981,7 @@ module['exports'] = (function () {
 })();
 
 
-},{"../colors":7}],14:[function(require,module,exports){
+},{"../colors":8}],15:[function(require,module,exports){
 var colors = require('../colors');
 
 module['exports'] = (function () {
@@ -967,13 +990,13 @@ module['exports'] = (function () {
     return letter === " " ? letter : colors[available[Math.round(Math.random() * (available.length - 1))]](letter);
   };
 })();
-},{"../colors":7}],15:[function(require,module,exports){
+},{"../colors":8}],16:[function(require,module,exports){
 var colors = require('../colors');
 
 module['exports'] = function (letter, i, exploded) {
   return i % 2 === 0 ? letter : colors.inverse(letter);
 };
-},{"../colors":7}],16:[function(require,module,exports){
+},{"../colors":8}],17:[function(require,module,exports){
 /*
 The MIT License (MIT)
 
@@ -1051,7 +1074,7 @@ Object.keys(codes).forEach(function (key) {
   style.open = '\u001b[' + val[0] + 'm';
   style.close = '\u001b[' + val[1] + 'm';
 });
-},{}],17:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 (function (process){
 /*
 The MIT License (MIT)
@@ -1115,7 +1138,7 @@ module.exports = (function () {
   return false;
 })();
 }).call(this,require("1YiZ5S"))
-},{"1YiZ5S":3}],18:[function(require,module,exports){
+},{"1YiZ5S":4}],19:[function(require,module,exports){
 "use strict";
 
 module.exports = asString
@@ -1191,7 +1214,7 @@ function asString(/*format,*/ date) {
 
 };
 
-},{}],19:[function(require,module,exports){
+},{}],20:[function(require,module,exports){
 module.exports = new(function() {
 
   // ヒアドキュメント用
@@ -1297,7 +1320,7 @@ module.exports = new(function() {
   };
 })();
 
-},{}],20:[function(require,module,exports){
+},{}],21:[function(require,module,exports){
 (function (global){
 // This file is generated by `make build`. 
 // Do NOT edit by hand. 
@@ -14555,7 +14578,7 @@ exports.strtr = function (str, from, to) {
 };
 
 }).call(this,typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],21:[function(require,module,exports){
+},{}],22:[function(require,module,exports){
 (function (global){
 phpjs = require('./build/npm');
 
@@ -14568,7 +14591,7 @@ phpjs.registerGlobals = function() {
 module.exports = phpjs;
 
 }).call(this,typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./build/npm":20}],22:[function(require,module,exports){
+},{"./build/npm":21}],23:[function(require,module,exports){
 //     Underscore.js 1.8.3
 //     http://underscorejs.org
 //     (c) 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
@@ -16118,9 +16141,9 @@ module.exports = phpjs;
   }
 }.call(this));
 
-},{}],23:[function(require,module,exports){
+},{}],24:[function(require,module,exports){
 (function(window){
 	window.broccoliBootstrap3BadgeField = require('../libs/bootstrap3-badge-client.js');
 })(window);
 
-},{"../libs/bootstrap3-badge-client.js":1}]},{},[23])
+},{"../libs/bootstrap3-badge-client.js":1}]},{},[24])

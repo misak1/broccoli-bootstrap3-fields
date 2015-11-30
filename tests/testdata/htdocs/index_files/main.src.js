@@ -39,7 +39,8 @@ window.main = new (function(){
 				'customFields': {
 					'Glyphicons': require('./../../../../libs/bootstrap3-glyphicons-client.js'),
 					'Button': require('./../../../../libs/bootstrap3-button-client.js'),
-					'Badge': require('./../../../../libs/bootstrap3-badge-client.js')
+					'Badge': require('./../../../../libs/bootstrap3-badge-client.js'),
+					'Labels': require('./../../../../libs/bootstrap3-labels-client.js')
 				},
 				'gpiBridge': function(api, options, callback){
 					// General Purpose Interface Bridge

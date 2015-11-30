@@ -11,9 +11,8 @@ module.exports = function(broccoli) {
   var php = require('phpjs');
   var _resMgr = broccoli.resourceMgr;
   var _this = this;
-  var _button = '<button class="btn btn-default" type="button" onclick="(ダブルクリックしてテキストを編集してください)"><span style="color:#999;background-color:#ddd;font-size:10px;padding:0 1em;max-width:100%;overflow:hidden;white-space:nowrap;">(ダブルクリックしてHTMLコードを編集してください)</span></button>';
-  require('./bootstrap3-badge-var.js');
-
+  var _button = '<button class="label label-default" type="button" onclick="(ダブルクリックしてテキストを編集してください)"><span style="color:#999;background-color:#ddd;font-size:10px;padding:0 1em;max-width:100%;overflow:hidden;white-space:nowrap;">(ダブルクリックしてHTMLコードを編集してください)</span></button>';
+  require('./bootstrap3-labels-var.js');
 
   /**
    * データをバインドする
@@ -29,10 +28,14 @@ module.exports = function(broccoli) {
         _resMgr.getResource(rtn.resKey, function(res) {
           if(rtn.html == null) rtn.html = _button;
           if (mode == 'canvas'){
-            var htmlBtn = '<span class="badge"><%= badgeText %></span>';
+            var htmlBtn = '<span class="label <%= labelsClass %>"><%= labelsText %></span>';
+            if(rtn.fields['label-type'] === 'link'){
+              htmlBtn = '<a href="url" class="<%= labelsClass %>"><%= labelsText %></a>';
+            }
             var _htmlBtn = _.template(htmlBtn);
             var html = _htmlBtn({
-                'badgeText':rtn.fields['badge-label']
+                'labelsClass': rtn.fields['label-style'],
+                'labelsText':rtn.fields['label-label']
               });
             rtn.html = html
             console.log(html);
