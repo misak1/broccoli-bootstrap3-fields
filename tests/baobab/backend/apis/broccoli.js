@@ -26,7 +26,8 @@ module.exports = function( data, callback, main, socket ){
 					'realpathDataDir': path.resolve(__dirname, '../../../testdata/htdocs/editpage/index_files/guieditor.ignore/')+'/',
 					'customFields': {
 						'Glyphicons': require('./../../../../libs/bootstrap3-glyphicons-server.js'),
-						'Button': require('./../../../../libs/bootstrap3-button-server.js')
+						'Button': require('./../../../../libs/bootstrap3-button-server.js'),
+						'Badge': require('./../../../../libs/bootstrap3-badge-server.js')
 					} ,
 					'bindTemplate': function(htmls, callback){
 						var fin = '';

@@ -7,114 +7,6 @@ module.exports = function(broccoli){
 	var resouce = require('br-resouce');
 	var mLog = require('m-log');
 	var _ = require('underscore');
-	// require('./bootstrap3-button-var.js');
-	var _badgeLabel = 'new';
-	var _resMgr = broccoli.resourceMgr;
-	var _this = this;
-
-
-	/**
-	 * プレビュー用の簡易なHTMLを生成する
-	 */
-	this.mkPreviewHtml = function( fieldData, mod, callback ){
-		console.log('mkPreviewHtml', 'client');
-		var rtn = {}
-		if( typeof(fieldData) === typeof({}) ){
-			rtn = fieldData;
-		}
-		_resMgr.getResource( rtn.resKeyEditPng, function(res){
-			callback(rtn.get(0).outerHTML);
-		} );
-		return;
-	}
-
-	/**
-	 * データを正規化する
-	 */
-	this.normalizeData = function( fieldData, mode ){
-		var rtn = fieldData;
-		if( typeof(fieldData) !== typeof({}) ){
-			rtn = {
-				"fields":{
-					"badge-label": _badgeLabel
-				}
-			};
-		}
-		return rtn;
-	}
-
-	/**
-	 * エディタUIを生成
-	 */
-	this.mkEditor = function( mod, data, elm, callback ){
-		var rtn = $('<div class="bs3-button-field">');
-console.log('data', data);
-
-		// badge-label
-		rtn.append('<h3>badge-label</h3>').append($('<div class="bs-badgeLabel">').append($('<input type="text" name="badgeLabel">')));
-		$(elm).html(rtn);
-
-		// 描画後の処理
-		$('input[name="badgeLabel"]').val(data.fields['badge-label']);
-
-		callback();
-		return;
-	}
-
-	/**
-	 * データを複製する
-	 */
-	this.duplicateData = function( data, callback ){
-		data = JSON.parse( JSON.stringify( data ) );
-		it79.fnc(
-			data,
-			[
-				function(it1, data){
-					_resMgr.duplicateResource( data.resKey, function(newResKey){
-						data.resKey = newResKey;
-						it1.next(data);
-					} );
-				} ,
-				function(it1, data){
-					_resMgr.getResourcePublicPath( data.resKey, function(publicPath){
-						data.PngPath = publicPath;
-						it1.next(data);
-					} );
-				} ,
-				function(it1, data){
-					callback(data);
-					it1.next(data);
-				}
-			]
-		);
-		return;
-	}// this.duplicateData
-
-	/**
-	 * エディタUIで編集した内容を保存
-	 */
-	this.saveEditorContent = function( elm, data, mod, callback ){
-		console.log('saveEditorContent');
-		var _this = this;
-		var resInfo;
-		var $dom = $(elm);
-		if( typeof(data) !== typeof({}) ){
-			data = {};
-		}
-		data.fields['badge-label'] = $dom.find('input[name="badgeLabel"]').val();
-		callback(data);
-	}// this.saveEditorContent()
-}
-
-},{"br-resouce":5,"iterate79":7,"m-log":8,"m-util":22,"phpjs":24,"underscore":25}],2:[function(require,module,exports){
-module.exports = function(broccoli){
-
-	require('m-util');
-	var it79 = require('iterate79');
-	var php = require('phpjs');
-	var resouce = require('br-resouce');
-	var mLog = require('m-log');
-	var _ = require('underscore');
 	require('./bootstrap3-button-var.js');
 	var _resMgr = broccoli.resourceMgr;
 	var _this = this;
@@ -348,7 +240,7 @@ console.log('data', data);
 	}// this.saveEditorContent()
 }
 
-},{"./bootstrap3-button-var.js":3,"br-resouce":5,"iterate79":7,"m-log":8,"m-util":22,"phpjs":24,"underscore":25}],3:[function(require,module,exports){
+},{"./bootstrap3-button-var.js":2,"br-resouce":3,"iterate79":5,"m-log":6,"m-util":20,"phpjs":22,"underscore":23}],2:[function(require,module,exports){
 module.exports = new(function() {
   _btnLabel = "ボタンテキスト";
 	_btnAction = "";
@@ -397,388 +289,7 @@ module.exports = new(function() {
   }
 })();
 
-},{}],4:[function(require,module,exports){
-module.exports = function(broccoli){
-
-	require('m-util');
-	var it79 = require('iterate79');
-	var php = require('phpjs');
-	var resouce = require('br-resouce');
-	var mLog = require('m-log');
-	var _ = require('underscore');
-
-	var _resMgr = broccoli.resourceMgr;
-	var _icons = [{"value":"asterisk", "label":"&#x2a"},
-	{"value":"plus", "label":"&#x2b"},
-	{"value":"euro", "label":"&#x20ac"},
-	{"value":"minus", "label":"&#x2212"},
-	{"value":"cloud", "label":"&#x2601"},
-	{"value":"envelope", "label":"&#x2709"},
-	{"value":"pencil", "label":"&#x270f"},
-	{"value":"glass", "label":"&#xe001"},
-	{"value":"music", "label":"&#xe002"},
-	{"value":"search", "label":"&#xe003"},
-	{"value":"heart", "label":"&#xe005"},
-	{"value":"star", "label":"&#xe006"},
-	{"value":"star-empty", "label":"&#xe007"},
-	{"value":"user", "label":"&#xe008"},
-	{"value":"film", "label":"&#xe009"},
-	{"value":"th-large", "label":"&#xe010"},
-	{"value":"th", "label":"&#xe011"},
-	{"value":"th-list", "label":"&#xe012"},
-	{"value":"ok", "label":"&#xe013"},
-	{"value":"remove", "label":"&#xe014"},
-	{"value":"zoom-in", "label":"&#xe015"},
-	{"value":"zoom-out", "label":"&#xe016"},
-	{"value":"off", "label":"&#xe017"},
-	{"value":"signal", "label":"&#xe018"},
-	{"value":"cog", "label":"&#xe019"},
-	{"value":"trash", "label":"&#xe020"},
-	{"value":"home", "label":"&#xe021"},
-	{"value":"file", "label":"&#xe022"},
-	{"value":"time", "label":"&#xe023"},
-	{"value":"road", "label":"&#xe024"},
-	{"value":"download-alt", "label":"&#xe025"},
-	{"value":"download", "label":"&#xe026"},
-	{"value":"upload", "label":"&#xe027"},
-	{"value":"inbox", "label":"&#xe028"},
-	{"value":"play-circle", "label":"&#xe029"},
-	{"value":"repeat", "label":"&#xe030"},
-	{"value":"refresh", "label":"&#xe031"},
-	{"value":"list-alt", "label":"&#xe032"},
-	{"value":"lock", "label":"&#xe033"},
-	{"value":"flag", "label":"&#xe034"},
-	{"value":"headphones", "label":"&#xe035"},
-	{"value":"volume-off", "label":"&#xe036"},
-	{"value":"volume-down", "label":"&#xe037"},
-	{"value":"volume-up", "label":"&#xe038"},
-	{"value":"qrcode", "label":"&#xe039"},
-	{"value":"barcode", "label":"&#xe040"},
-	{"value":"tag", "label":"&#xe041"},
-	{"value":"tags", "label":"&#xe042"},
-	{"value":"book", "label":"&#xe043"},
-	{"value":"bookmark", "label":"&#xe044"},
-	{"value":"print", "label":"&#xe045"},
-	{"value":"camera", "label":"&#xe046"},
-	{"value":"font", "label":"&#xe047"},
-	{"value":"bold", "label":"&#xe048"},
-	{"value":"italic", "label":"&#xe049"},
-	{"value":"text-height", "label":"&#xe050"},
-	{"value":"text-width", "label":"&#xe051"},
-	{"value":"align-left", "label":"&#xe052"},
-	{"value":"align-center", "label":"&#xe053"},
-	{"value":"align-right", "label":"&#xe054"},
-	{"value":"align-justify", "label":"&#xe055"},
-	{"value":"list", "label":"&#xe056"},
-	{"value":"indent-left", "label":"&#xe057"},
-	{"value":"indent-right", "label":"&#xe058"},
-	{"value":"facetime-video", "label":"&#xe059"},
-	{"value":"picture", "label":"&#xe060"},
-	{"value":"map-marker", "label":"&#xe062"},
-	{"value":"adjust", "label":"&#xe063"},
-	{"value":"tint", "label":"&#xe064"},
-	{"value":"edit", "label":"&#xe065"},
-	{"value":"share", "label":"&#xe066"},
-	{"value":"check", "label":"&#xe067"},
-	{"value":"move", "label":"&#xe068"},
-	{"value":"step-backward", "label":"&#xe069"},
-	{"value":"fast-backward", "label":"&#xe070"},
-	{"value":"backward", "label":"&#xe071"},
-	{"value":"play", "label":"&#xe072"},
-	{"value":"pause", "label":"&#xe073"},
-	{"value":"stop", "label":"&#xe074"},
-	{"value":"forward", "label":"&#xe075"},
-	{"value":"fast-forward", "label":"&#xe076"},
-	{"value":"step-forward", "label":"&#xe077"},
-	{"value":"eject", "label":"&#xe078"},
-	{"value":"chevron-left", "label":"&#xe079"},
-	{"value":"chevron-right", "label":"&#xe080"},
-	{"value":"plus-sign", "label":"&#xe081"},
-	{"value":"minus-sign", "label":"&#xe082"},
-	{"value":"remove-sign", "label":"&#xe083"},
-	{"value":"ok-sign", "label":"&#xe084"},
-	{"value":"question-sign", "label":"&#xe085"},
-	{"value":"info-sign", "label":"&#xe086"},
-	{"value":"screenshot", "label":"&#xe087"},
-	{"value":"remove-circle", "label":"&#xe088"},
-	{"value":"ok-circle", "label":"&#xe089"},
-	{"value":"ban-circle", "label":"&#xe090"},
-	{"value":"arrow-left", "label":"&#xe091"},
-	{"value":"arrow-right", "label":"&#xe092"},
-	{"value":"arrow-up", "label":"&#xe093"},
-	{"value":"arrow-down", "label":"&#xe094"},
-	{"value":"share-alt", "label":"&#xe095"},
-	{"value":"resize-full", "label":"&#xe096"},
-	{"value":"resize-small", "label":"&#xe097"},
-	{"value":"exclamation-sign", "label":"&#xe101"},
-	{"value":"gift", "label":"&#xe102"},
-	{"value":"leaf", "label":"&#xe103"},
-	{"value":"fire", "label":"&#xe104"},
-	{"value":"eye-open", "label":"&#xe105"},
-	{"value":"eye-close", "label":"&#xe106"},
-	{"value":"warning-sign", "label":"&#xe107"},
-	{"value":"plane", "label":"&#xe108"},
-	{"value":"calendar", "label":"&#xe109"},
-	{"value":"random", "label":"&#xe110"},
-	{"value":"comment", "label":"&#xe111"},
-	{"value":"magnet", "label":"&#xe112"},
-	{"value":"chevron-up", "label":"&#xe113"},
-	{"value":"chevron-down", "label":"&#xe114"},
-	{"value":"retweet", "label":"&#xe115"},
-	{"value":"shopping-cart", "label":"&#xe116"},
-	{"value":"folder-close", "label":"&#xe117"},
-	{"value":"folder-open", "label":"&#xe118"},
-	{"value":"resize-vertical", "label":"&#xe119"},
-	{"value":"resize-horizontal", "label":"&#xe120"},
-	{"value":"hdd", "label":"&#xe121"},
-	{"value":"bullhorn", "label":"&#xe122"},
-	{"value":"bell", "label":"&#xe123"},
-	{"value":"certificate", "label":"&#xe124"},
-	{"value":"thumbs-up", "label":"&#xe125"},
-	{"value":"thumbs-down", "label":"&#xe126"},
-	{"value":"hand-right", "label":"&#xe127"},
-	{"value":"hand-left", "label":"&#xe128"},
-	{"value":"hand-up", "label":"&#xe129"},
-	{"value":"hand-down", "label":"&#xe130"},
-	{"value":"circle-arrow-right", "label":"&#xe131"},
-	{"value":"circle-arrow-left", "label":"&#xe132"},
-	{"value":"circle-arrow-up", "label":"&#xe133"},
-	{"value":"circle-arrow-down", "label":"&#xe134"},
-	{"value":"globe", "label":"&#xe135"},
-	{"value":"wrench", "label":"&#xe136"},
-	{"value":"tasks", "label":"&#xe137"},
-	{"value":"filter", "label":"&#xe138"},
-	{"value":"briefcase", "label":"&#xe139"},
-	{"value":"fullscreen", "label":"&#xe140"},
-	{"value":"dashboard", "label":"&#xe141"},
-	{"value":"paperclip", "label":"&#xe142"},
-	{"value":"heart-empty", "label":"&#xe143"},
-	{"value":"link", "label":"&#xe144"},
-	{"value":"phone", "label":"&#xe145"},
-	{"value":"pushpin", "label":"&#xe146"},
-	{"value":"usd", "label":"&#xe148"},
-	{"value":"gbp", "label":"&#xe149"},
-	{"value":"sort", "label":"&#xe150"},
-	{"value":"sort-by-alphabet", "label":"&#xe151"},
-	{"value":"sort-by-alphabet-alt", "label":"&#xe152"},
-	{"value":"sort-by-order", "label":"&#xe153"},
-	{"value":"sort-by-order-alt", "label":"&#xe154"},
-	{"value":"sort-by-attributes", "label":"&#xe155"},
-	{"value":"sort-by-attributes-alt", "label":"&#xe156"},
-	{"value":"unchecked", "label":"&#xe157"},
-	{"value":"expand", "label":"&#xe158"},
-	{"value":"collapse-down", "label":"&#xe159"},
-	{"value":"collapse-up", "label":"&#xe160"},
-	{"value":"log-in", "label":"&#xe161"},
-	{"value":"flash", "label":"&#xe162"},
-	{"value":"log-out", "label":"&#xe163"},
-	{"value":"new-window", "label":"&#xe164"},
-	{"value":"record", "label":"&#xe165"},
-	{"value":"save", "label":"&#xe166"},
-	{"value":"open", "label":"&#xe167"},
-	{"value":"saved", "label":"&#xe168"},
-	{"value":"import", "label":"&#xe169"},
-	{"value":"export", "label":"&#xe170"},
-	{"value":"send", "label":"&#xe171"},
-	{"value":"floppy-disk", "label":"&#xe172"},
-	{"value":"floppy-saved", "label":"&#xe173"},
-	{"value":"floppy-remove", "label":"&#xe174"},
-	{"value":"floppy-save", "label":"&#xe175"},
-	{"value":"floppy-open", "label":"&#xe176"},
-	{"value":"credit-card", "label":"&#xe177"},
-	{"value":"transfer", "label":"&#xe178"},
-	{"value":"cutlery", "label":"&#xe179"},
-	{"value":"header", "label":"&#xe180"},
-	{"value":"compressed", "label":"&#xe181"},
-	{"value":"earphone", "label":"&#xe182"},
-	{"value":"phone-alt", "label":"&#xe183"},
-	{"value":"tower", "label":"&#xe184"},
-	{"value":"stats", "label":"&#xe185"},
-	{"value":"sd-video", "label":"&#xe186"},
-	{"value":"hd-video", "label":"&#xe187"},
-	{"value":"subtitles", "label":"&#xe188"},
-	{"value":"sound-stereo", "label":"&#xe189"},
-	{"value":"sound-dolby", "label":"&#xe190"},
-	{"value":"sound-5-1", "label":"&#xe191"},
-	{"value":"sound-6-1", "label":"&#xe192"},
-	{"value":"sound-7-1", "label":"&#xe193"},
-	{"value":"copyright-mark", "label":"&#xe194"},
-	{"value":"registration-mark", "label":"&#xe195"},
-	{"value":"cloud-download", "label":"&#xe197"},
-	{"value":"cloud-upload", "label":"&#xe198"},
-	{"value":"tree-conifer", "label":"&#xe199"},
-	{"value":"tree-deciduous", "label":"&#xe200"}
-	];
-
-	var _this = this;
-
-
-	//  Server Side  | <Client Side>
-	// --------------+-------------------
-	// bind          |
-	// mkPreviewHtml | mkPreviewHtml
-	// normalizeData | normalizeData
-	//               | mkEditor
-	//               | duplicateData
-	//               | saveEditorContent
-	// gpi           |
-
-	/**
-	 * プレビュー用の簡易なHTMLを生成する
-	 */
-	this.mkPreviewHtml = function( fieldData, mod, callback ){
-		console.log('mkPreviewHtml', 'client');
-		var rtn = {}
-		if( typeof(fieldData) === typeof({}) ){
-			rtn = fieldData;
-		}
-		_resMgr.getResource( rtn.resKeyEditPng, function(res){
-			callback(rtn.get(0).outerHTML);
-		} );
-		return;
-	}
-
-	/**
-	 * データを正規化する
-	 */
-	this.normalizeData = function( fieldData, mode ){
-		var rtn = fieldData;
-		if( typeof(fieldData) !== typeof({}) ){
-			rtn = {
-				"resKey":'',
-				"icon":''
-			};
-		}
-		return rtn;
-	}
-
-	/**
-	 * エディタUIを生成
-	 */
-	this.mkEditor = function( mod, data, elm, callback ){
-		var rtn = $('<div>');
-
-		var htmlIconList = (function() {/*
-		<li>
-			<label>
-			<input type="radio" name="glyphicon" value="<%= iconData %>" style="display:block;">
-				<div>
-					<span class="glyphicon glyphicon-<%= iconData %>" aria-hidden="true"></span>
-					<span class="glyphicon-class">glyphicon glyphicon-<%= iconData %></span>
-				</div>
-			</label>
-		</li>
-		*/}).toString().uHereDoc();
-		var _htmlIconList = _.template(htmlIconList);
-		$ul = $('<ul class="bs-glyphicons-list">');
-		for (var icon_i = 0; icon_i < _icons.length; icon_i++) {
-			$ul.append($(_htmlIconList({
-				'iconData': _icons[icon_i].value
-			})));
-		}
-		rtn.append($('<div class="bs-glyphicons">').append($ul));
-		$(elm).html(rtn);
-
-		// 描画後の処理
-		var _default_val = $('input[name="glyphicon"]').get(0).value;
-		var _checked_val =  data.icon;
-		console.log(_checked_val,  data.icon);
-		if(_checked_val !== _default_val){
-			console.log("none");
-			$('input[name="glyphicon"][value="' + _default_val +'"]').prop('checked', true);
-		}else{
-			console.log("exist");
-			$('input[name="glyphicon"][value="' + _checked_val +'"]').prop('checked', true);
-		}
-
-		callback();
-		return;
-	}
-
-	/**
-	 * データを複製する
-	 */
-	this.duplicateData = function( data, callback ){
-		data = JSON.parse( JSON.stringify( data ) );
-		it79.fnc(
-			data,
-			[
-				function(it1, data){
-					_resMgr.duplicateResource( data.resKey, function(newResKey){
-						data.resKey = newResKey;
-						it1.next(data);
-					} );
-				} ,
-				function(it1, data){
-					_resMgr.getResourcePublicPath( data.resKey, function(publicPath){
-						data.PngPath = publicPath;
-						it1.next(data);
-					} );
-				} ,
-				function(it1, data){
-					callback(data);
-					it1.next(data);
-				}
-			]
-		);
-		return;
-	}// this.duplicateData
-
-	/**
-	 * エディタUIで編集した内容を保存
-	 */
-	this.saveEditorContent = function( elm, data, mod, callback ){
-		var _this = this;
-		var resInfo;
-		var $dom = $(elm);
-		if( typeof(data) !== typeof({}) ){
-			data = {};
-		}
-		if( typeof(data.resKey) !== typeof('') ){
-			data.resKey = '';
-		}
-		it79.fnc(
-			data,
-			[
-				function(it1, data){
-					_resMgr.getResource(data.resKey, function(result){
-						if( result === false ){
-							_resMgr.addResource(function(newResKey){
-								data.resKey = newResKey;
-								it1.next(data);
-							});
-							return;
-						}
-						it1.next(data);
-					});
-				} ,
-				function(it1, data){
-					_resMgr.getResource(data.resKey, function(res){
-						resInfo = res;
-						it1.next(data);
-					});
-					return;
-				} ,
-				function(it1, data){
-						_resMgr.updateResource(data.resKey, resInfo, function(){
-							data.icon = $dom.find('input[name="glyphicon"]:checked').val();
-							it1.next(data);
-						});
-						return;
-					it1.next(data);
-					return ;
-				},
-				function(it1, data){
-					// console.log(data);
-					callback(data);
-					it1.next(data);
-				}
-			]
-		);
-	}// this.saveEditorContent()
-}
-
-},{"br-resouce":5,"iterate79":7,"m-log":8,"m-util":22,"phpjs":24,"underscore":25}],5:[function(require,module,exports){
+},{}],3:[function(require,module,exports){
 module.exports = function() {
   this.ext;
   this.type;
@@ -820,7 +331,7 @@ module.exports = function() {
   }
 }
 
-},{"m-util":22}],6:[function(require,module,exports){
+},{"m-util":20}],4:[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
@@ -885,7 +396,7 @@ process.chdir = function (dir) {
     throw new Error('process.chdir is not supported');
 };
 
-},{}],7:[function(require,module,exports){
+},{}],5:[function(require,module,exports){
 /**
  * node-iterate79
  */
@@ -961,10 +472,10 @@ process.chdir = function (dir) {
 
 })(exports);
 
-},{}],8:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 module.exports = require('./libs/log');
 
-},{"./libs/log":9}],9:[function(require,module,exports){
+},{"./libs/log":7}],7:[function(require,module,exports){
 module.exports = new(function() {
 
     'use strict';
@@ -1134,7 +645,7 @@ module.exports = new(function() {
     }
 })();
 
-},{"colors":14,"date-format":21}],10:[function(require,module,exports){
+},{"colors":12,"date-format":19}],8:[function(require,module,exports){
 /*
 
 The MIT License (MIT)
@@ -1322,7 +833,7 @@ for (var map in colors.maps) {
 }
 
 defineProps(colors, init());
-},{"./custom/trap":11,"./custom/zalgo":12,"./maps/america":15,"./maps/rainbow":16,"./maps/random":17,"./maps/zebra":18,"./styles":19,"./system/supports-colors":20}],11:[function(require,module,exports){
+},{"./custom/trap":9,"./custom/zalgo":10,"./maps/america":13,"./maps/rainbow":14,"./maps/random":15,"./maps/zebra":16,"./styles":17,"./system/supports-colors":18}],9:[function(require,module,exports){
 module['exports'] = function runTheTrap (text, options) {
   var result = "";
   text = text || "Run the trap, drop the bass";
@@ -1369,7 +880,7 @@ module['exports'] = function runTheTrap (text, options) {
 
 }
 
-},{}],12:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 // please no
 module['exports'] = function zalgo(text, options) {
   text = text || "   he is here   ";
@@ -1475,7 +986,7 @@ module['exports'] = function zalgo(text, options) {
   return heComes(text, options);
 }
 
-},{}],13:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 var colors = require('./colors');
 
 module['exports'] = function () {
@@ -1589,7 +1100,7 @@ module['exports'] = function () {
   };
 
 };
-},{"./colors":10}],14:[function(require,module,exports){
+},{"./colors":8}],12:[function(require,module,exports){
 var colors = require('./colors');
 module['exports'] = colors;
 
@@ -1602,7 +1113,7 @@ module['exports'] = colors;
 //
 //
 require('./extendStringPrototype')();
-},{"./colors":10,"./extendStringPrototype":13}],15:[function(require,module,exports){
+},{"./colors":8,"./extendStringPrototype":11}],13:[function(require,module,exports){
 var colors = require('../colors');
 
 module['exports'] = (function() {
@@ -1615,7 +1126,7 @@ module['exports'] = (function() {
     }
   }
 })();
-},{"../colors":10}],16:[function(require,module,exports){
+},{"../colors":8}],14:[function(require,module,exports){
 var colors = require('../colors');
 
 module['exports'] = (function () {
@@ -1630,7 +1141,7 @@ module['exports'] = (function () {
 })();
 
 
-},{"../colors":10}],17:[function(require,module,exports){
+},{"../colors":8}],15:[function(require,module,exports){
 var colors = require('../colors');
 
 module['exports'] = (function () {
@@ -1639,13 +1150,13 @@ module['exports'] = (function () {
     return letter === " " ? letter : colors[available[Math.round(Math.random() * (available.length - 1))]](letter);
   };
 })();
-},{"../colors":10}],18:[function(require,module,exports){
+},{"../colors":8}],16:[function(require,module,exports){
 var colors = require('../colors');
 
 module['exports'] = function (letter, i, exploded) {
   return i % 2 === 0 ? letter : colors.inverse(letter);
 };
-},{"../colors":10}],19:[function(require,module,exports){
+},{"../colors":8}],17:[function(require,module,exports){
 /*
 The MIT License (MIT)
 
@@ -1723,7 +1234,7 @@ Object.keys(codes).forEach(function (key) {
   style.open = '\u001b[' + val[0] + 'm';
   style.close = '\u001b[' + val[1] + 'm';
 });
-},{}],20:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 (function (process){
 /*
 The MIT License (MIT)
@@ -1786,8 +1297,8 @@ module.exports = (function () {
 
   return false;
 })();
-}).call(this,require("DF1urx"))
-},{"DF1urx":6}],21:[function(require,module,exports){
+}).call(this,require("1YiZ5S"))
+},{"1YiZ5S":4}],19:[function(require,module,exports){
 "use strict";
 
 module.exports = asString
@@ -1863,7 +1374,7 @@ function asString(/*format,*/ date) {
 
 };
 
-},{}],22:[function(require,module,exports){
+},{}],20:[function(require,module,exports){
 module.exports = new(function() {
 
   // ヒアドキュメント用
@@ -1969,7 +1480,7 @@ module.exports = new(function() {
   };
 })();
 
-},{}],23:[function(require,module,exports){
+},{}],21:[function(require,module,exports){
 (function (global){
 // This file is generated by `make build`. 
 // Do NOT edit by hand. 
@@ -15227,7 +14738,7 @@ exports.strtr = function (str, from, to) {
 };
 
 }).call(this,typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],24:[function(require,module,exports){
+},{}],22:[function(require,module,exports){
 (function (global){
 phpjs = require('./build/npm');
 
@@ -15240,7 +14751,7 @@ phpjs.registerGlobals = function() {
 module.exports = phpjs;
 
 }).call(this,typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./build/npm":23}],25:[function(require,module,exports){
+},{"./build/npm":21}],23:[function(require,module,exports){
 //     Underscore.js 1.8.3
 //     http://underscorejs.org
 //     (c) 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
@@ -16790,93 +16301,9 @@ module.exports = phpjs;
   }
 }.call(this));
 
-},{}],26:[function(require,module,exports){
-// console.log(broccoli);
+},{}],24:[function(require,module,exports){
+(function(window){
+	window.broccoliBootstrap3ButtonField = require('../libs/bootstrap3-button-client.js');
+})(window);
 
-/**
- * main.js
- */
-window.main = new (function(){
-	var _this = this;
-	var it79 = require('iterate79');
-	var socket = this.socket = window.baobabFw
-		.createSocket(
-			this,
-			io,
-			{
-				'showSocketTest': function( data, callback, main, socket ){
-					// console.log(data);
-					// alert(data.message);
-					// console.log(callback);
-					callback(data);
-					return;
-				}
-			}
-		)
-	;
-
-	// broccoli をインスタンス化
-	var broccoli = new Broccoli();
-	this.broccoli = window.broccoli = broccoli;
-
-	this.init = function(callback){
-		callback = callback||function(){};
-		// this.socketTest();
-		// broccoli を初期化
-		broccoli.init(
-			{
-				'elmCanvas': $('.canvas').get(0),
-				'elmModulePalette': $('.palette').get(0),
-				'contents_area_selector': '[data-contents]',
-				'contents_bowl_name_by': 'data-contents',
-				'customFields': {
-					'Glyphicons': require('./../../../../libs/bootstrap3-glyphicons-client.js'),
-					'Button': require('./../../../../libs/bootstrap3-button-client.js'),
-					'Badge': require('./../../../../libs/bootstrap3-badge-client.js')
-				},
-				'gpiBridge': function(api, options, callback){
-					// General Purpose Interface Bridge
-					socket.send(
-						'broccoli',
-						{
-							'api': 'gpiBridge' ,
-							'bridge': {
-								'api': api ,
-								'options': options
-							}
-						} ,
-						function(rtn){
-							// console.log(rtn);
-							callback(rtn);
-						}
-					);
-					return;
-				}
-			} ,
-			function(){
-				$(window).resize(function(){
-					broccoli.redraw();
-				});
-				callback();
-			}
-		);
-	}
-
-	/**
-	 * WebSocket疎通確認
-	 */
-	this.socketTest = function(){
-		socket.send(
-			'socketTest',
-			{'message': 'socketTest from frontend.'} ,
-			function(data){
-				console.log(data);
-				// alert('callback function is called!');
-			}
-		);
-		return this;
-	}
-
-})();
-
-},{"./../../../../libs/bootstrap3-badge-client.js":1,"./../../../../libs/bootstrap3-button-client.js":2,"./../../../../libs/bootstrap3-glyphicons-client.js":4,"iterate79":7}]},{},[26])
+},{"../libs/bootstrap3-button-client.js":1}]},{},[24])

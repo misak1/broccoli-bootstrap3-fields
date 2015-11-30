@@ -25,6 +25,26 @@
         }
        }
       }
+     },
+     {
+      "modId": "testMod1:icon/Badge",
+      "fields": {
+       "Badge": {
+        "fields": {
+         "badge-label": "333"
+        }
+       }
+      }
+     },
+     {
+      "modId": "testMod1:icon/Badge",
+      "fields": {
+       "Badge": {
+        "fields": {
+         "badge-label": "１"
+        }
+       }
+      }
      }
     ]
    }
