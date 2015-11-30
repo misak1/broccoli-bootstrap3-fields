@@ -14,15 +14,6 @@ module.exports = function(broccoli) {
   var _button = '<button class="btn btn-default" type="button" onclick="(ダブルクリックしてテキストを編集してください)"><span style="color:#999;background-color:#ddd;font-size:10px;padding:0 1em;max-width:100%;overflow:hidden;white-space:nowrap;">(ダブルクリックしてHTMLコードを編集してください)</span></button>';
   require('./bootstrap3-button-var.js');
 
-  // <Server Side> |  Client Side
-  // --------------+-------------------
-  // bind          |
-  //               | mkPreviewHtml
-  //               | normalizeData
-  //               | mkEditor
-  //               | duplicateData
-  //               | saveEditorContent
-  // gpi           |
 
   /**
    * データをバインドする

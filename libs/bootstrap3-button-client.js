@@ -69,14 +69,15 @@ console.log('data', data);
 		rtn.append('<h3>btn-action</h3>').append($('<div class="bs-btnAction">').append($('<textarea name="btnAction">')));
 
 		// btn-type
-		var htmlBtnType = (function() {/*
-		<li style="list-style:none;">
-			<label style="display:block;">
-				<input type="radio" name="btnType" value="<%= typeVal %>" style="display:block;">
-				<span><%= typeLbl %></span>
-			</label>
-		</li>
-		*/}).toString().uHereDoc();
+		var htmlBtnType = '		<li style="list-style:none;">			<label style="display:block;">				<input type="radio" name="btnType" value="<%= typeVal %>" style="display:block;">				<span><%= typeLbl %></span>			</label>		</li>';
+		// var htmlBtnType = (function() {/*
+		// <li style="list-style:none;">
+		// 	<label style="display:block;">
+		// 		<input type="radio" name="btnType" value="<%= typeVal %>" style="display:block;">
+		// 		<span><%= typeLbl %></span>
+		// 	</label>
+		// </li>
+		// */}).toString().uHereDoc();
 		var _htmlBtnType = _.template(htmlBtnType);
 		$ulBtnType = $('<ul>');
 		for (var type_i = 0; type_i < _btnType.length; type_i++) {
@@ -89,6 +90,7 @@ console.log('data', data);
 
 
 		// btn-style
+		var htmlBtnStyle = '		<li style="display:inline-block; vertical-align:bottom; margin-left:.7em;">			<label>				<input type="radio" name="btnStyle" value="<%= styleVal %>" style="display:block;">				<span class="btn <%= styleVal %>" type="button"><%= styleLbl %></span>			</label>		</li>';
 		var htmlBtnStyle = (function() {/*
 		<li style="display:inline-block; vertical-align:bottom; margin-left:.7em;">
 			<label>
