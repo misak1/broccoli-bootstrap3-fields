@@ -1,0 +1,28 @@
+{
+	"name": "Dropdown",
+	"areaSizeDetection": "shallow",
+	"interface": {
+		"fields": {
+			"dropdown_title":{
+				"fieldType": "input",
+				"type":"html_attr_text",
+				"rows":1
+			},
+			"dropdown_id":{
+				"fieldType": "input",
+				"type":"html_attr_text",
+				"rows":1
+			},
+			"carousel_loop":{
+				"fieldType":"loop"
+			}
+		},
+		"subModule":{
+			"carousel_loop":{
+				"fields":{
+					"fieldType": "module"
+				}
+			}
+		}
+	}
+}

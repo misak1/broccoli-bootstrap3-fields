@@ -69,6 +69,9 @@ gulp.task("copy", function() {
 		.pipe(gulp.dest( './tests/testdata/htdocs/libs/bs3/fonts/')) // テスト用
 		.pipe(gulp.dest( './dist/fonts/' )) // 本番用
 	;
+	// broccoli更新
+	gulp.src(["./node_modules/broccoli-html-editor/client/dist/*"])
+		.pipe(gulp.dest( './tests/testdata/htdocs/libs/' ))
 });
 
 // css

@@ -30,6 +30,8 @@ module.exports = function( data, callback, main, socket ){
 						'Badge': require('./../../../../libs/bootstrap3-badge-server.js'),
 						'Labels': require('./../../../../libs/bootstrap3-labels-server.js'),
 						'Alert': require('./../../../../libs/bootstrap3-alert-server.js')
+						// ,
+						// 'Dropdown': require('./../../../../libs/bootstrap3-dropdown-server.js')
 					} ,
 					'bindTemplate': function(htmls, callback){
 						var fin = '';

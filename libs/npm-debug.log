@@ -1,0 +1,35 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'node', '/Users/mac/.nvm/v0.10.29/bin/npm', 'run', 'up' ]
+2 info using npm@2.1.8
+3 info using node@v0.10.29
+4 verbose run-script [ 'preup', 'up', 'postup' ]
+5 info preup broccoli-bootstrap3-glyphicons-field@0.0.1-alpha.1
+6 info up broccoli-bootstrap3-glyphicons-field@0.0.1-alpha.1
+7 verbose unsafe-perm in lifecycle true
+8 info broccoli-bootstrap3-glyphicons-field@0.0.1-alpha.1 Failed to exec up script
+9 verbose stack Error: broccoli-bootstrap3-glyphicons-field@0.0.1-alpha.1 up: `node ./node_modules/baobab-fw/lib/cmd/server.js`
+9 verbose stack Exit status 8
+9 verbose stack     at EventEmitter.<anonymous> (/Users/mac/.nvm/v0.10.29/lib/node_modules/npm/lib/utils/lifecycle.js:212:16)
+9 verbose stack     at EventEmitter.emit (events.js:98:17)
+9 verbose stack     at ChildProcess.<anonymous> (/Users/mac/.nvm/v0.10.29/lib/node_modules/npm/lib/utils/spawn.js:14:12)
+9 verbose stack     at ChildProcess.emit (events.js:98:17)
+9 verbose stack     at maybeClose (child_process.js:755:16)
+9 verbose stack     at Process.ChildProcess._handle.onexit (child_process.js:822:5)
+10 verbose pkgid broccoli-bootstrap3-glyphicons-field@0.0.1-alpha.1
+11 verbose cwd /Users/mac/Documents/vhosts/broccoli-bootstrap3-fields/libs
+12 error Darwin 14.5.0
+13 error argv "node" "/Users/mac/.nvm/v0.10.29/bin/npm" "run" "up"
+14 error node v0.10.29
+15 error npm  v2.1.8
+16 error code ELIFECYCLE
+17 error broccoli-bootstrap3-glyphicons-field@0.0.1-alpha.1 up: `node ./node_modules/baobab-fw/lib/cmd/server.js`
+17 error Exit status 8
+18 error Failed at the broccoli-bootstrap3-glyphicons-field@0.0.1-alpha.1 up script 'node ./node_modules/baobab-fw/lib/cmd/server.js'.
+18 error This is most likely a problem with the broccoli-bootstrap3-glyphicons-field package,
+18 error not with npm itself.
+18 error Tell the author that this fails on your system:
+18 error     node ./node_modules/baobab-fw/lib/cmd/server.js
+18 error You can get their info via:
+18 error     npm owner ls broccoli-bootstrap3-glyphicons-field
+18 error There is likely additional logging output above.
+19 verbose exit [ 1, true ]

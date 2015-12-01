@@ -34,6 +34,8 @@ window.main = new (function(){
 			{
 				'elmCanvas': $('.canvas').get(0),
 				'elmModulePalette': $('.palette').get(0),
+				'elmInstancePathView': $('.instancePathView').get(0),
+				'elmInstanceTreeView': $('.instanceTreeView').get(0),
 				'contents_area_selector': '[data-contents]',
 				'contents_bowl_name_by': 'data-contents',
 				'customFields': {
@@ -42,6 +44,8 @@ window.main = new (function(){
 					'Badge': require('./../../../../libs/bootstrap3-badge-client.js'),
 					'Labels': require('./../../../../libs/bootstrap3-labels-client.js'),
 					'Alert': require('./../../../../libs/bootstrap3-alert-client.js')
+					// ,
+					// 'Dropdown': require('./../../../../libs/bootstrap3-dropdown-client.js')
 				},
 				'gpiBridge': function(api, options, callback){
 					// General Purpose Interface Bridge

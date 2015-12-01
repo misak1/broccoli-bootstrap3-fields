@@ -12,38 +12,41 @@
       }
      },
      {
-      "modId": "testMod1:alerts/Alert",
+      "modId": "testMod1:javascripts/carousel",
       "fields": {
-       "Alert": {
-        "fields": {
-         "alert-title": "赤",
-         "alert-message": "めっさ",
-         "alert-style": " alert-danger"
+       "carousel_id": "",
+       "carousel_loop": [
+        {
+         "modId": "testMod1:javascripts/carousel",
+         "fields": {
+          "image_src": {
+           "resKey": "",
+           "path": "about:blank"
+          },
+          "image_alt": "",
+          "caption": {
+           "src": "",
+           "editor": "markdown"
+          }
+         },
+         "subModName": "carousel_loop"
+        },
+        {
+         "modId": "testMod1:javascripts/carousel",
+         "fields": {
+          "image_src": {
+           "resKey": "",
+           "path": "about:blank"
+          },
+          "image_alt": "",
+          "caption": {
+           "src": "",
+           "editor": "markdown"
+          }
+         },
+         "subModName": "carousel_loop"
         }
-       }
-      }
-     },
-     {
-      "modId": "testMod1:alerts/Alert",
-      "fields": {
-       "Alert": {
-        "fields": {
-         "alert-title": "Well done!",
-         "alert-message": "You successfully read this important alert message.",
-         "alert-style": " alert-warning"
-        }
-       }
-      }
-     },
-     {
-      "modId": "testMod1:icon/Labels",
-      "fields": {
-       "Labels": {
-        "fields": {
-         "label-label": "サクセス",
-         "label-style": " label-danger"
-        }
-       }
+       ]
       }
      }
     ]
