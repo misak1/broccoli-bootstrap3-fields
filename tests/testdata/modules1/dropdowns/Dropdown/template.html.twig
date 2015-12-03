@@ -1,26 +1,11 @@
-
-<div id="{{ dropdown_id }}" class="carousel slide" data-ride="carousel">
-  <!-- Indicators -->
-  <ol class="carousel-indicators">
-{% set i = 0 %}
-{% for row in dropdown_loop %}
-    <li data-target="#{{ dropdown_id }}" data-slide-to="{{ i }}"{% if i == 0 %} class="active"{% endif %}></li>
-{% set i = i+1 %}
-{% endfor %}
-  </ol>
-
-  <!-- Wrapper for slides -->
-  <div class="carousel-inner" role="listbox">
-{% set i = 0 %}
-{% for row in dropdown_loop %}
-    <div class="item{% if i == 0 %} active{% endif %}">
-
-      <div class="carousel-caption">
-        {{ row.dropdownItem }}
-      </div>
-    </div>
-{% set i = i+1 %}
-{% endfor %}
-  </div>
-
-</div><!-- / #{{ dropdown_id }} -->
+<div class="dropdown" id="{{ Dropdown_id }}">
+	<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
+		{{ Dropdown_name }}
+		<span class="caret"></span>
+	</button>
+	<ul class="dropdown-menu" role="menu">
+    {% for row in Dropdown_loop %}
+      <li role="presentation">{{ row }}</li>
+    {% endfor %}
+	</ul>
+</div><!-- / #{{ Dropdown_id }} -->

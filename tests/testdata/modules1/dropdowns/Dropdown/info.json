@@ -1,26 +1,28 @@
 {
-	"name": "Dropdown",
+	"name": "Dropdown" ,
 	"areaSizeDetection": "shallow",
 	"interface": {
 		"fields": {
-			"dropdown_title":{
+			"Dropdown_id":{
 				"fieldType": "input",
 				"type":"html_attr_text",
 				"rows":1
 			},
-			"dropdown_id":{
+			"Dropdown_name":{
 				"fieldType": "input",
 				"type":"html_attr_text",
 				"rows":1
 			},
-			"carousel_loop":{
+			"Dropdown_loop":{
 				"fieldType":"loop"
 			}
 		},
 		"subModule":{
-			"carousel_loop":{
+			"Dropdown_loop":{
 				"fields":{
-					"fieldType": "module"
+					"body":{
+						"fieldType": "module"
+					}
 				}
 			}
 		}
