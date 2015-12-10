@@ -48,6 +48,22 @@
         }
        ]
       }
+     },
+     {
+      "modId": "testMod1:dropdowns/Dropdown",
+      "fields": {
+       "Dropdown_id": "",
+       "Dropdown_name": "",
+       "Dropdown_loop": []
+      }
+     },
+     {
+      "modId": "testMod1:dropdowns/Dropdown",
+      "fields": {
+       "Dropdown_id": "",
+       "Dropdown_name": "",
+       "Dropdown_loop": []
+      }
      }
     ]
    }
@@ -55,7 +71,26 @@
   "secondly": {
    "modId": "_sys/root",
    "fields": {
-    "main": []
+    "main": [
+     {
+      "modId": "testMod1:dropdowns/Dropdown",
+      "fields": {
+       "Dropdown_id": "",
+       "Dropdown_name": "",
+       "Dropdown_loop": []
+      }
+     },
+     {
+      "modId": "testMod1:icon/Badge",
+      "fields": {
+       "Badge": {
+        "fields": {
+         "badge-label": "1"
+        }
+       }
+      }
+     }
+    ]
    }
   }
  }

@@ -44,8 +44,6 @@ window.main = new (function(){
 					'Badge': require('./../../../../libs/bootstrap3-badge-client.js'),
 					'Labels': require('./../../../../libs/bootstrap3-labels-client.js'),
 					'Alert': require('./../../../../libs/bootstrap3-alert-client.js')
-					// ,
-					// 'Dropdown': require('./../../../../libs/bootstrap3-dropdown-client.js')
 				},
 				'gpiBridge': function(api, options, callback){
 					// General Purpose Interface Bridge
