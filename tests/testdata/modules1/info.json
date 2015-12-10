@@ -1,5 +1,6 @@
 {
-	"name": "bootstrap3",
+	"name": "テストモジュール1",
 	"sort":[
+		"dev", "units"
 	]
 }

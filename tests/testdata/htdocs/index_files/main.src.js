@@ -24,7 +24,7 @@ window.main = new (function(){
 
 	// broccoli をインスタンス化
 	var broccoli = new Broccoli();
-	this.broccoli = window.broccoli = broccoli;
+	this.broccoli = broccoli;
 
 	this.init = function(callback){
 		callback = callback||function(){};
@@ -39,11 +39,28 @@ window.main = new (function(){
 				'contents_area_selector': '[data-contents]',
 				'contents_bowl_name_by': 'data-contents',
 				'customFields': {
-					'Glyphicons': require('./../../../../libs/bootstrap3-glyphicons-client.js'),
-					'Button': require('./../../../../libs/bootstrap3-button-client.js'),
-					'Badge': require('./../../../../libs/bootstrap3-badge-client.js'),
-					'Labels': require('./../../../../libs/bootstrap3-labels-client.js'),
-					'Alert': require('./../../../../libs/bootstrap3-alert-client.js')
+					'custom1': function(broccoli){
+						/**
+						 * データをバインドする
+						 */
+						this.bind = function( fieldData, mode, mod, callback ){
+							var php = require('phpjs');
+							var rtn = ''
+							if(typeof(fieldData)===typeof('')){
+								rtn = php.htmlspecialchars( fieldData ); // ←HTML特殊文字変換
+								rtn = rtn.replace(new RegExp('\r\n|\r|\n','g'), '<br />'); // ← 改行コードは改行タグに変換
+							}
+							if( mode == 'canvas' && !rtn.length ){
+								rtn = '<span style="color:#999;background-color:#ddd;font-size:10px;padding:0 1em;max-width:100%;overflow:hidden;white-space:nowrap;">(ダブルクリックしてテキストを編集してください)</span>';
+							}
+							rtn = '<div style="background-color:#993; color:#fff; padding:1em;">'+rtn+'</div>';
+							setTimeout(function(){
+								callback(rtn);
+							}, 0);
+							return;
+						}
+
+					}
 				},
 				'gpiBridge': function(api, options, callback){
 					// General Purpose Interface Bridge

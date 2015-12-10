@@ -9,7 +9,7 @@ module.exports = function( data, callback, main, socket ){
 	data = data||{};
 	callback = callback||function(){};
 
-	var Broccoli = require('broccoli-html-editor');
+	var Broccoli = require('./../../../../libs/main.js');
 	var broccoli = new Broccoli();
 
 	it79.fnc(data, [
@@ -18,20 +18,36 @@ module.exports = function( data, callback, main, socket ){
 				{
 					'paths_module_template': {
 						'PlainHTMLElements': '../PlainHTMLElements/',
-						'testMod1': '../modules1/'
+						'testMod1': '../modules1/',
+						'testMod2': '../modules2/'
 					} ,
 					'documentRoot': path.resolve(__dirname, '../../../testdata/htdocs/')+'/',
 					'pathHtml': '/editpage/index.html',
 					'pathResourceDir': '/editpage/index_files/resources/',
 					'realpathDataDir': path.resolve(__dirname, '../../../testdata/htdocs/editpage/index_files/guieditor.ignore/')+'/',
 					'customFields': {
-						'Glyphicons': require('./../../../../libs/bootstrap3-glyphicons-server.js'),
-						'Button': require('./../../../../libs/bootstrap3-button-server.js'),
-						'Badge': require('./../../../../libs/bootstrap3-badge-server.js'),
-						'Labels': require('./../../../../libs/bootstrap3-labels-server.js'),
-						'Alert': require('./../../../../libs/bootstrap3-alert-server.js')
-						// ,
-						// 'Dropdown': require('./../../../../libs/bootstrap3-dropdown-server.js')
+						'custom1': function(broccoli){
+							/**
+							 * データをバインドする
+							 */
+							this.bind = function( fieldData, mode, mod, callback ){
+								var php = require('phpjs');
+								var rtn = ''
+								if(typeof(fieldData)===typeof('')){
+									rtn = php.htmlspecialchars( fieldData ); // ←HTML特殊文字変換
+									rtn = rtn.replace(new RegExp('\r\n|\r|\n','g'), '<br />'); // ← 改行コードは改行タグに変換
+								}
+								if( mode == 'canvas' && !rtn.length ){
+									rtn = '<span style="color:#999;background-color:#ddd;font-size:10px;padding:0 1em;max-width:100%;overflow:hidden;white-space:nowrap;">(ダブルクリックしてテキストを編集してください)</span>';
+								}
+								rtn = '<div style="background-color:#993; color:#fff; padding:1em;">'+rtn+'</div>';
+								setTimeout(function(){
+									callback(rtn);
+								}, 0);
+								return;
+							}
+
+						}
 					} ,
 					'bindTemplate': function(htmls, callback){
 						var fin = '';
@@ -42,11 +58,7 @@ module.exports = function( data, callback, main, socket ){
 						fin += '        <title>sample page</title>'+"\n";
 						fin += '        <style media="screen">'+"\n";
 						fin += '            img{max-width:100%;}'+"\n";
-						fin += '            table{border:1px solid #666;}'+"\n";
-						fin += '            table th{border:1px solid #666;}'+"\n";
-						fin += '            table td{border:1px solid #666;}'+"\n";
 						fin += '        </style>'+"\n";
-
 						fin += '    </head>'+"\n";
 						fin += '    <body>'+"\n";
 						fin += '        <h1>sample page</h1>'+"\n";
@@ -70,12 +82,6 @@ module.exports = function( data, callback, main, socket ){
 						fin += '}'+"\n";
 						fin += '})(),false);'+"\n";
 						fin += '</script>'+"\n";
-
-						// bootstrap3
-						fin += '<link rel="stylesheet" href="/libs/bs3/css/bootstrap.min.css" />'+"\n";
-						fin += '<link rel="stylesheet" href="/libs/bs3/css/bootstrap-theme.min.css" />'+"\n";
-						fin += '<link rel="stylesheet" href="/libs/bs3/css/bootstrap4broccoli.css" />'+"\n";
-						fin += '<script type="text/javascript" href="/libs/bs3/js/bootstrap.min.js"></script>'+"\n";
 
 						callback(fin);
 						return;
