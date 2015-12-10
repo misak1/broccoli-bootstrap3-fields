@@ -7,594 +7,6 @@ module.exports = function(broccoli){
 	var resouce = require('br-resouce');
 	var mLog = require('m-log');
 	var _ = require('underscore');
-	require('./bootstrap3-alert-var.js');
-	var _resMgr = broccoli.resourceMgr;
-	var _this = this;
-
-	/**
-	 * プレビュー用の簡易なHTMLを生成する
-	 */
-	this.mkPreviewHtml = function( fieldData, mod, callback ){
-		console.log('mkPreviewHtml', 'client');
-		var rtn = {}
-		if( typeof(fieldData) === typeof({}) ){
-			rtn = fieldData;
-		}
-		_resMgr.getResource( rtn.resKeyEditPng, function(res){
-			callback(rtn.get(0).outerHTML);
-		} );
-		return;
-	}
-
-	/**
-	 * データを正規化する
-	 */
-	this.normalizeData = function( fieldData, mode ){
-		var rtn = fieldData;
-		if( typeof(fieldData) !== typeof({}) ){
-			rtn = {
-				"fields":{
-					"alert-title": _alertTitle,
-					"alert-message": _alertMessage,
-					"alert-style" :_alertStyle[0].value
-				}
-			};
-		}
-		return rtn;
-	}
-
-	/**
-	 * エディタUIを生成
-	 */
-	this.mkEditor = function( mod, data, elm, callback ){
-		var rtn = $('<div class="bs3-alert-field">');
-console.log('data', data);
-		// alert-title
-		rtn.append('<h3>alert-title</h3>').append($('<div class="bs-alertTitle">').append($('<input type="text" name="alertTitle">')));
-		// alert-message
-		rtn.append('<h3>alert-message</h3>').append($('<div class="bs-alertMessage">').append($('<input type="text" name="alertMessage">')));
-
-		// alert-style
-		var htmlBtnStyle = '		<li style="display:inline-block; vertical-align:bottom; margin-left:.7em;">			<alert>				<input type="radio" name="alertStyle" value="<%= styleVal %>" style="display:block;">				<span class="alert <%= styleVal %>" type="alert"><%= styleLbl %></span>			</alert>		</li>';
-		// var htmlBtnStyle = (function() {/*
-		// <li style="vertical-align:bottom;">
-		// 	<label>
-		// 		<input type="radio" name="alertStyle" value="<%= styleVal %>" style="display:block;">
-		// 		<div class="alert <%= styleVal %>" role="alert"><%= styleLbl %>
-		// 			<strong><%= exTitle %></strong><%= exMessage %>
-		// 		</div>
-		// 	</label>
-		// </li>
-		// */}).toString().uHereDoc();
-		var _htmlBtnStyle = _.template(htmlBtnStyle);
-		$ulBtnStyle = $('<ul>');
-		for (var style_i = 0; style_i < _alertStyle.length; style_i++) {
-			$ulBtnStyle.append($(_htmlBtnStyle({
-				'styleVal'  : _alertStyle[style_i].value,
-				'styleLbl'  : _alertStyle[style_i].alert,
-				'exTitle'   : _alertStyle[style_i].ex_title,
-				'exMessage' : _alertStyle[style_i].ex_message
-			})));
-		}
-		rtn.append('<h3>alert-style</h3>').append($('<div class="bs-alertStyle">').append($ulBtnStyle));
-
-		$(elm).html(rtn);
-
-		// 描画後の処理
-		$('input[name="alertTitle"]').val(data.fields['alert-title']);
-		$('input[name="alertMessage"]').val(data.fields['alert-message']);
-
-		// alertStyle
-		_default_val = $('input[name="alertStyle"]').get(0).value;
-		_checked_val = data.fields['alert-style'];
-		if(_checked_val !== _default_val){
-			$('input[name="alertStyle"][value="' + _checked_val +'"]').prop('checked', true);
-		}else{
-			$('input[name="alertStyle"][value="' + _default_val +'"]').prop('checked', true);
-		}
-
-		callback();
-		return;
-	}
-
-	/**
-	 * データを複製する
-	 */
-	this.duplicateData = function( data, callback ){
-		data = JSON.parse( JSON.stringify( data ) );
-		it79.fnc(
-			data,
-			[
-				function(it1, data){
-					_resMgr.duplicateResource( data.resKey, function(newResKey){
-						data.resKey = newResKey;
-						it1.next(data);
-					} );
-				} ,
-				function(it1, data){
-					_resMgr.getResourcePublicPath( data.resKey, function(publicPath){
-						data.PngPath = publicPath;
-						it1.next(data);
-					} );
-				} ,
-				function(it1, data){
-					callback(data);
-					it1.next(data);
-				}
-			]
-		);
-		return;
-	}// this.duplicateData
-
-	/**
-	 * エディタUIで編集した内容を保存
-	 */
-	this.saveEditorContent = function( elm, data, mod, callback ){
-		console.log('saveEditorContent');
-		var _this = this;
-		var resInfo;
-		var $dom = $(elm);
-		if( typeof(data) !== typeof({}) ){
-			data = {};
-		}
-		data.fields['alert-title'] = $dom.find('input[name="alertTitle"]').val();
-		data.fields['alert-message'] = $dom.find('input[name="alertMessage"]').val();
-		data.fields['alert-style'] = $dom.find('input[name="alertStyle"]:checked').val();
-		callback(data);
-	}// this.saveEditorContent()
-}
-
-},{"./bootstrap3-alert-var.js":2,"br-resouce":10,"iterate79":12,"m-log":13,"m-util":27,"phpjs":29,"underscore":30}],2:[function(require,module,exports){
-module.exports = new(function() {
-  _alertTitle = "Well done!";
-  _alertMessage = "You successfully read this important alert message.";
-	_alertStyle = [
-		{"value":" alert-success", "label":"success", "ex_title": "Well done!", "ex_message": "You successfully read this important alert message."},
-		{"value":" alert-info"   , "label":"info"   , "ex_title": "Heads up!" , "ex_message": "This alert needs your attention, but it's not super important."},
-		{"value":" alert-warning", "label":"warning", "ex_title": "Warning!"  , "ex_message": "Better check yourself, you're not looking too good."},
-		{"value":" alert-danger" , "label":"danger" , "ex_title": "Oh snap!"  , "ex_message": "Change a few things up and try submitting again."}
-	];
-
-  // valueの対になるlabelを返す
-  searchLabel = function(objects, strValue){
-    for(var i=0; i<objects.length; i++) {
-      if(objects[i].value === strValue) {
-        return objects[i].label;
-        break;
-      }
-    }
-  }
-  // labelの対になるvalueを返す
-  searchValue = function(objects, strLabel){
-    for(var i=0; i<objects.length; i++) {
-      if(objects[i].label === strLabel) {
-        return objects[i].value;
-        break;
-      }
-    }
-  }
-})();
-
-},{}],3:[function(require,module,exports){
-module.exports = function(broccoli){
-
-	require('m-util');
-	var it79 = require('iterate79');
-	var php = require('phpjs');
-	var resouce = require('br-resouce');
-	var mLog = require('m-log');
-	var _ = require('underscore');
-	require('./bootstrap3-badge-var.js');
-	var _resMgr = broccoli.resourceMgr;
-	var _this = this;
-
-
-	/**
-	 * プレビュー用の簡易なHTMLを生成する
-	 */
-	this.mkPreviewHtml = function( fieldData, mod, callback ){
-		console.log('mkPreviewHtml', 'client');
-		var rtn = {}
-		if( typeof(fieldData) === typeof({}) ){
-			rtn = fieldData;
-		}
-		_resMgr.getResource( rtn.resKeyEditPng, function(res){
-			callback(rtn.get(0).outerHTML);
-		} );
-		return;
-	}
-
-	/**
-	 * データを正規化する
-	 */
-	this.normalizeData = function( fieldData, mode ){
-		var rtn = fieldData;
-		if( typeof(fieldData) !== typeof({}) ){
-			rtn = {
-				"fields":{
-					"badge-label": _badgeLabel
-				}
-			};
-		}
-		return rtn;
-	}
-
-	/**
-	 * エディタUIを生成
-	 */
-	this.mkEditor = function( mod, data, elm, callback ){
-		var rtn = $('<div class="bs3-button-field">');
-console.log('data', data);
-
-		// badge-label
-		rtn.append('<h3>badge-label</h3>').append($('<div class="bs-badgeLabel">').append($('<input type="text" name="badgeLabel">')));
-		$(elm).html(rtn);
-
-		// 描画後の処理
-		$('input[name="badgeLabel"]').val(data.fields['badge-label']);
-
-		callback();
-		return;
-	}
-
-	/**
-	 * データを複製する
-	 */
-	this.duplicateData = function( data, callback ){
-		data = JSON.parse( JSON.stringify( data ) );
-		it79.fnc(
-			data,
-			[
-				function(it1, data){
-					_resMgr.duplicateResource( data.resKey, function(newResKey){
-						data.resKey = newResKey;
-						it1.next(data);
-					} );
-				} ,
-				function(it1, data){
-					_resMgr.getResourcePublicPath( data.resKey, function(publicPath){
-						data.PngPath = publicPath;
-						it1.next(data);
-					} );
-				} ,
-				function(it1, data){
-					callback(data);
-					it1.next(data);
-				}
-			]
-		);
-		return;
-	}// this.duplicateData
-
-	/**
-	 * エディタUIで編集した内容を保存
-	 */
-	this.saveEditorContent = function( elm, data, mod, callback ){
-		console.log('saveEditorContent');
-		var _this = this;
-		var resInfo;
-		var $dom = $(elm);
-		if( typeof(data) !== typeof({}) ){
-			data = {};
-		}
-		data.fields['badge-label'] = $dom.find('input[name="badgeLabel"]').val();
-		callback(data);
-	}// this.saveEditorContent()
-}
-
-},{"./bootstrap3-badge-var.js":4,"br-resouce":10,"iterate79":12,"m-log":13,"m-util":27,"phpjs":29,"underscore":30}],4:[function(require,module,exports){
-module.exports = new(function() {
-  _badgeLabel = '1';
-
-  // valueの対になるlabelを返す
-  // searchLabel = function(objects, strValue){
-  //   for(var i=0; i<objects.length; i++) {
-  //     if(objects[i].value === strValue) {
-  //       return objects[i].label;
-  //       break;
-  //     }
-  //   }
-  // }
-  // // labelの対になるvalueを返す
-  // searchValue = function(objects, strLabel){
-  //   for(var i=0; i<objects.length; i++) {
-  //     if(objects[i].label === strLabel) {
-  //       return objects[i].value;
-  //       break;
-  //     }
-  //   }
-  // }
-})();
-
-},{}],5:[function(require,module,exports){
-module.exports = function(broccoli){
-
-	require('m-util');
-	var it79 = require('iterate79');
-	var php = require('phpjs');
-	var resouce = require('br-resouce');
-	var mLog = require('m-log');
-	var _ = require('underscore');
-	require('./bootstrap3-button-var.js');
-	var _resMgr = broccoli.resourceMgr;
-	var _this = this;
-
-	/**
-	 * プレビュー用の簡易なHTMLを生成する
-	 */
-	this.mkPreviewHtml = function( fieldData, mod, callback ){
-		console.log('mkPreviewHtml', 'client');
-		var rtn = {}
-		if( typeof(fieldData) === typeof({}) ){
-			rtn = fieldData;
-		}
-		_resMgr.getResource( rtn.resKeyEditPng, function(res){
-			callback(rtn.get(0).outerHTML);
-		} );
-		return;
-	}
-
-	/**
-	 * データを正規化する
-	 */
-	this.normalizeData = function( fieldData, mode ){
-		var rtn = fieldData;
-		if( typeof(fieldData) !== typeof({}) ){
-			rtn = {
-				"fields":{
-					"btn-label": _btnLabel,
-					"btn-action": _btnAction,
-					"btn-type": _btnType[0].value,
-					"btn-style" :_btnStyle[0].value,
-					"btn-size": _btnSize[0].value,
-					"btn-block": _btnBlock[0].value
-				}
-			};
-		}
-		return rtn;
-	}
-
-	/**
-	 * エディタUIを生成
-	 */
-	this.mkEditor = function( mod, data, elm, callback ){
-		var rtn = $('<div class="bs3-button-field">');
-console.log('data', data);
-		// btn-label
-		rtn.append('<h3>btn-label</h3>').append($('<div class="bs-btnLabel">').append($('<input type="text" name="btnLabel">')));
-
-		// btn-action
-		rtn.append('<h3>btn-action</h3>').append($('<div class="bs-btnAction">').append($('<textarea name="btnAction">')));
-
-		// btn-type
-		var htmlBtnType = '		<li style="list-style:none;">			<label style="display:block;">				<input type="radio" name="btnType" value="<%= typeVal %>" style="display:block;">				<span><%= typeLbl %></span>			</label>		</li>';
-		// var htmlBtnType = (function() {/*
-		// <li style="list-style:none;">
-		// 	<label style="display:block;">
-		// 		<input type="radio" name="btnType" value="<%= typeVal %>" style="display:block;">
-		// 		<span><%= typeLbl %></span>
-		// 	</label>
-		// </li>
-		// */}).toString().uHereDoc();
-		var _htmlBtnType = _.template(htmlBtnType);
-		$ulBtnType = $('<ul>');
-		for (var type_i = 0; type_i < _btnType.length; type_i++) {
-			$ulBtnType.append($(_htmlBtnType({
-				'typeVal': _btnType[type_i].value,
-				'typeLbl': _btnType[type_i].label
-			})));
-		}
-		rtn.append('<h3>btn-type</h3>').append($('<div class="bs-btnType">').append($ulBtnType));
-
-
-		// btn-style
-		var htmlBtnStyle = '		<li style="display:inline-block; vertical-align:bottom; margin-left:.7em;">			<label>				<input type="radio" name="btnStyle" value="<%= styleVal %>" style="display:block;">				<span class="btn <%= styleVal %>" type="button"><%= styleLbl %></span>			</label>		</li>';
-		// var htmlBtnStyle = (function() {/*
-		// <li style="display:inline-block; vertical-align:bottom; margin-left:.7em;">
-		// 	<label>
-		// 		<input type="radio" name="btnStyle" value="<%= styleVal %>" style="display:block;">
-		// 		<span class="btn <%= styleVal %>" type="button"><%= styleLbl %></span>
-		// 	</label>
-		// </li>
-		// */}).toString().uHereDoc();
-		var _htmlBtnStyle = _.template(htmlBtnStyle);
-		$ulBtnStyle = $('<ul>');
-		for (var style_i = 0; style_i < _btnStyle.length; style_i++) {
-			$ulBtnStyle.append($(_htmlBtnStyle({
-				'styleVal': _btnStyle[style_i].value,
-				'styleLbl': _btnStyle[style_i].label
-			})));
-		}
-		rtn.append('<h3>btn-style</h3>').append($('<div class="bs-btnStyle">').append($ulBtnStyle));
-
-
-		// btn-size
-		var htmlBtnSize = (function() {/*
-		<li style="display:inline-block; vertical-align:bottom; margin-left:.7em;">
-			<label>
-				<input type="radio" name="btnSize" value="<%= sizeVal %>" size="display:block;">
-				<span class="btn btn-default <%= sizeVal %>" type="button"><%= sizeLbl %></span>
-			</label>
-		</li>
-		*/}).toString().uHereDoc();
-		var _htmlBtnSize = _.template(htmlBtnSize);
-		$ulBtnSize = $('<ul>');
-		for (var size_i = 0; size_i < _btnSize.length; size_i++) {
-			$ulBtnSize.append($(_htmlBtnSize({
-				'sizeVal': _btnSize[size_i].value,
-				'sizeLbl': _btnSize[size_i].label
-			})));
-		}
-		rtn.append('<h3>btn-size</h3>').append($('<div class="bs-btnSize">').append($ulBtnSize));
-
-		// btn-Block
-		var htmlBtnBlock = (function() {/*
-		<li style="list-style:none;">
-			<label style="display:block;">
-				<input type="radio" name="btnBlock" value="<%= blockVal %>" block="display:block;">
-				<span class="btn btn-default <%= blockVal %>" type="button"><%= blockLbl %></span>
-			</label>
-		</li>
-		*/}).toString().uHereDoc();
-		var _htmlBtnBlock = _.template(htmlBtnBlock);
-		$ulBtnBlock = $('<ul>');
-		for (var block_i = 0; block_i < _btnBlock.length; block_i++) {
-			$ulBtnBlock.append($(_htmlBtnBlock({
-				'blockVal': _btnBlock[block_i].value,
-				'blockLbl': _btnBlock[block_i].label
-			})));
-		}
-		rtn.append('<h3>btn-block</h3>').append($('<div class="bs-btnBlock">').append($ulBtnBlock));
-
-		$(elm).html(rtn);
-
-		// 描画後の処理
-		$('input[name="btnLabel"]').val(data.fields['btn-label']);
-		$('textarea[name="btnAction"]').val(data.fields['btn-action']);
-		var _default_val = $('input[name="btnType"]').get(0).value;
-		var _checked_val = data.fields['btn-type'];
-		if(_checked_val !== _default_val){
-			$('input[name="btnType"][value="' + _checked_val +'"]').prop('checked', true);
-		}else{
-			$('input[name="btnType"][value="' + _default_val +'"]').prop('checked', true);
-		}
-		// btnStyle
-		_default_val = $('input[name="btnStyle"]').get(0).value;
-		_checked_val = data.fields['btn-style'];
-		if(_checked_val !== _default_val){
-			$('input[name="btnStyle"][value="' + _checked_val +'"]').prop('checked', true);
-		}else{
-			$('input[name="btnStyle"][value="' + _default_val +'"]').prop('checked', true);
-		}
-		// btnSize
-		_default_val = $('input[name="btnSize"]').get(0).value;
-		_checked_val = data.fields['btn-size'];
-		if(_checked_val !== _default_val){
-			$('input[name="btnSize"][value="' + _checked_val +'"]').prop('checked', true);
-		}else{
-			$('input[name="btnSize"][value="' + _default_val +'"]').prop('checked', true);
-		}
-		// btnBlock
-		_default_val = $('input[name="btnBlock"]').get(0).value;
-		_checked_val = data.fields['btn-block'];
-		if(_checked_val !== _default_val){
-			$('input[name="btnBlock"][value="' + _checked_val +'"]').prop('checked', true);
-		}else{
-			$('input[name="btnBlock"][value="' + _default_val +'"]').prop('checked', true);
-		}
-
-		callback();
-		return;
-	}
-
-	/**
-	 * データを複製する
-	 */
-	this.duplicateData = function( data, callback ){
-		data = JSON.parse( JSON.stringify( data ) );
-		it79.fnc(
-			data,
-			[
-				function(it1, data){
-					_resMgr.duplicateResource( data.resKey, function(newResKey){
-						data.resKey = newResKey;
-						it1.next(data);
-					} );
-				} ,
-				function(it1, data){
-					_resMgr.getResourcePublicPath( data.resKey, function(publicPath){
-						data.PngPath = publicPath;
-						it1.next(data);
-					} );
-				} ,
-				function(it1, data){
-					callback(data);
-					it1.next(data);
-				}
-			]
-		);
-		return;
-	}// this.duplicateData
-
-	/**
-	 * エディタUIで編集した内容を保存
-	 */
-	this.saveEditorContent = function( elm, data, mod, callback ){
-		console.log('saveEditorContent');
-		var _this = this;
-		var resInfo;
-		var $dom = $(elm);
-		if( typeof(data) !== typeof({}) ){
-			data = {};
-		}
-		data.fields['btn-label'] = $dom.find('input[name="btnLabel"]').val();
-		data.fields['btn-action'] = $dom.find('textarea[name="btnAction"]').val();
-		data.fields['btn-type'] = $dom.find('input[name="btnType"]:checked').val();
-		data.fields['btn-style'] = $dom.find('input[name="btnStyle"]:checked').val();
-		data.fields['btn-size'] = $dom.find('input[name="btnSize"]:checked').val();
-		data.fields['btn-block'] = $dom.find('input[name="btnBlock"]:checked').val();
-		callback(data);
-	}// this.saveEditorContent()
-}
-
-},{"./bootstrap3-button-var.js":6,"br-resouce":10,"iterate79":12,"m-log":13,"m-util":27,"phpjs":29,"underscore":30}],6:[function(require,module,exports){
-module.exports = new(function() {
-  _btnLabel = "ボタンテキスト";
-	_btnAction = "";
-	_btnType = [
-		{"value":"button", "label":"&lt;button type=&quot;button&quot;&gt;text&lt;/button&gt;"},
-		{"value":"submit", "label":"&lt;button type=&quot;submit&quot;&gt;text&lt;/button&gt;"},
-		{"value":"link", "label":"&lt;a href=&quot;url&quot;&gt;text&lt;/a&gt;"}
-	];
-	_btnStyle = [
-		{"value":" btn-default", "label":"default"},
-		{"value":" btn-primary", "label":"primary"},
-		{"value":" btn-success", "label":"success"},
-		{"value":" btn-info", "label":"info"},
-		{"value":" btn-warning", "label":"warning"},
-		{"value":" btn-danger", "label":"danger"},
-		{"value":" btn-link", "label":"link"}
-	];
-	_btnSize = [
-		{"value":"", "label":"default"},
-		{"value":" btn-lg", "label":"Large"},
-		{"value":" btn-sm", "label":"Small"},
-		{"value":" btn-xs", "label":"X-Small"}
-	];
-	_btnBlock = [
-		{"value":"", "label":"default(inline)"},
-		{"value":" btn-block", "label":"block"}
-	];
-
-  // valueの対になるlabelを返す
-  searchLabel = function(objects, strValue){
-    for(var i=0; i<objects.length; i++) {
-      if(objects[i].value === strValue) {
-        return objects[i].label;
-        break;
-      }
-    }
-  }
-  // labelの対になるvalueを返す
-  searchValue = function(objects, strLabel){
-    for(var i=0; i<objects.length; i++) {
-      if(objects[i].label === strLabel) {
-        return objects[i].value;
-        break;
-      }
-    }
-  }
-})();
-
-},{}],7:[function(require,module,exports){
-module.exports = function(broccoli){
-
-	require('m-util');
-	var it79 = require('iterate79');
-	var php = require('phpjs');
-	var resouce = require('br-resouce');
-	var mLog = require('m-log');
-	var _ = require('underscore');
 
 	var _resMgr = broccoli.resourceMgr;
 	var _icons = [{"value":"asterisk", "label":"&#x2a"},
@@ -968,177 +380,7 @@ module.exports = function(broccoli){
 	}// this.saveEditorContent()
 }
 
-},{"br-resouce":10,"iterate79":12,"m-log":13,"m-util":27,"phpjs":29,"underscore":30}],8:[function(require,module,exports){
-module.exports = function(broccoli){
-
-	require('m-util');
-	var it79 = require('iterate79');
-	var php = require('phpjs');
-	var resouce = require('br-resouce');
-	var mLog = require('m-log');
-	var _ = require('underscore');
-	require('./bootstrap3-labels-var.js');
-	var _resMgr = broccoli.resourceMgr;
-	var _this = this;
-
-	/**
-	 * プレビュー用の簡易なHTMLを生成する
-	 */
-	this.mkPreviewHtml = function( fieldData, mod, callback ){
-		console.log('mkPreviewHtml', 'client');
-		var rtn = {}
-		if( typeof(fieldData) === typeof({}) ){
-			rtn = fieldData;
-		}
-		_resMgr.getResource( rtn.resKeyEditPng, function(res){
-			callback(rtn.get(0).outerHTML);
-		} );
-		return;
-	}
-
-	/**
-	 * データを正規化する
-	 */
-	this.normalizeData = function( fieldData, mode ){
-		var rtn = fieldData;
-		if( typeof(fieldData) !== typeof({}) ){
-			rtn = {
-				"fields":{
-					"label-label": _labelLabel,
-					"label-style" :_labelStyle[0].value
-				}
-			};
-		}
-		return rtn;
-	}
-
-	/**
-	 * エディタUIを生成
-	 */
-	this.mkEditor = function( mod, data, elm, callback ){
-		var rtn = $('<div class="bs3-labels-field">');
-console.log('data', data);
-		// label-label
-		rtn.append('<h3>label-label</h3>').append($('<div class="bs-labelLabel">').append($('<input type="text" name="labelLabel">')));
-
-		// label-style
-		var htmlBtnStyle = '		<li style="display:inline-block; vertical-align:bottom; margin-left:.7em;">			<label>				<input type="radio" name="labelStyle" value="<%= styleVal %>" style="display:block;">				<span class="label <%= styleVal %>" type="label"><%= styleLbl %></span>			</label>		</li>';
-		// var htmlBtnStyle = (function() {/*
-		// <li style="display:inline-block; vertical-align:bottom; margin-left:.7em;">
-		// 	<label>
-		// 		<input type="radio" name="labelStyle" value="<%= styleVal %>" style="display:block;">
-		// 		<span class="label <%= styleVal %>" type="label"><%= styleLbl %></span>
-		// 	</label>
-		// </li>
-		// */}).toString().uHereDoc();
-		var _htmlBtnStyle = _.template(htmlBtnStyle);
-		$ulBtnStyle = $('<ul>');
-		for (var style_i = 0; style_i < _labelStyle.length; style_i++) {
-			$ulBtnStyle.append($(_htmlBtnStyle({
-				'styleVal': _labelStyle[style_i].value,
-				'styleLbl': _labelStyle[style_i].label
-			})));
-		}
-		rtn.append('<h3>label-style</h3>').append($('<div class="bs-labelStyle">').append($ulBtnStyle));
-
-		$(elm).html(rtn);
-
-		// 描画後の処理
-		$('input[name="labelLabel"]').val(data.fields['label-label']);
-
-		// labelStyle
-		_default_val = $('input[name="labelStyle"]').get(0).value;
-		_checked_val = data.fields['label-style'];
-		if(_checked_val !== _default_val){
-			$('input[name="labelStyle"][value="' + _checked_val +'"]').prop('checked', true);
-		}else{
-			$('input[name="labelStyle"][value="' + _default_val +'"]').prop('checked', true);
-		}
-
-		callback();
-		return;
-	}
-
-	/**
-	 * データを複製する
-	 */
-	this.duplicateData = function( data, callback ){
-		data = JSON.parse( JSON.stringify( data ) );
-		it79.fnc(
-			data,
-			[
-				function(it1, data){
-					_resMgr.duplicateResource( data.resKey, function(newResKey){
-						data.resKey = newResKey;
-						it1.next(data);
-					} );
-				} ,
-				function(it1, data){
-					_resMgr.getResourcePublicPath( data.resKey, function(publicPath){
-						data.PngPath = publicPath;
-						it1.next(data);
-					} );
-				} ,
-				function(it1, data){
-					callback(data);
-					it1.next(data);
-				}
-			]
-		);
-		return;
-	}// this.duplicateData
-
-	/**
-	 * エディタUIで編集した内容を保存
-	 */
-	this.saveEditorContent = function( elm, data, mod, callback ){
-		console.log('saveEditorContent');
-		var _this = this;
-		var resInfo;
-		var $dom = $(elm);
-		if( typeof(data) !== typeof({}) ){
-			data = {};
-		}
-		data.fields['label-label'] = $dom.find('input[name="labelLabel"]').val();
-		data.fields['label-style'] = $dom.find('input[name="labelStyle"]:checked').val();
-		callback(data);
-	}// this.saveEditorContent()
-}
-
-},{"./bootstrap3-labels-var.js":9,"br-resouce":10,"iterate79":12,"m-log":13,"m-util":27,"phpjs":29,"underscore":30}],9:[function(require,module,exports){
-module.exports = new(function() {
-  _labelLabel = "New";
-	_labelStyle = [
-		{"value":" label-default", "label":"default"},
-		{"value":" label-primary", "label":"primary"},
-		{"value":" label-success", "label":"success"},
-		{"value":" label-info", "label":"info"},
-		{"value":" label-warning", "label":"warning"},
-		{"value":" label-danger", "label":"danger"},
-		{"value":" label-link", "label":"link"}
-	];
-
-  // valueの対になるlabelを返す
-  searchLabel = function(objects, strValue){
-    for(var i=0; i<objects.length; i++) {
-      if(objects[i].value === strValue) {
-        return objects[i].label;
-        break;
-      }
-    }
-  }
-  // labelの対になるvalueを返す
-  searchValue = function(objects, strLabel){
-    for(var i=0; i<objects.length; i++) {
-      if(objects[i].label === strLabel) {
-        return objects[i].value;
-        break;
-      }
-    }
-  }
-})();
-
-},{}],10:[function(require,module,exports){
+},{"br-resouce":2,"iterate79":4,"m-log":5,"m-util":19,"phpjs":21,"underscore":22}],2:[function(require,module,exports){
 module.exports = function() {
   this.ext;
   this.type;
@@ -1180,7 +422,7 @@ module.exports = function() {
   }
 }
 
-},{"m-util":27}],11:[function(require,module,exports){
+},{"m-util":19}],3:[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
@@ -1245,7 +487,7 @@ process.chdir = function (dir) {
     throw new Error('process.chdir is not supported');
 };
 
-},{}],12:[function(require,module,exports){
+},{}],4:[function(require,module,exports){
 /**
  * node-iterate79
  */
@@ -1321,10 +563,10 @@ process.chdir = function (dir) {
 
 })(exports);
 
-},{}],13:[function(require,module,exports){
+},{}],5:[function(require,module,exports){
 module.exports = require('./libs/log');
 
-},{"./libs/log":14}],14:[function(require,module,exports){
+},{"./libs/log":6}],6:[function(require,module,exports){
 module.exports = new(function() {
 
     'use strict';
@@ -1494,7 +736,7 @@ module.exports = new(function() {
     }
 })();
 
-},{"colors":19,"date-format":26}],15:[function(require,module,exports){
+},{"colors":11,"date-format":18}],7:[function(require,module,exports){
 /*
 
 The MIT License (MIT)
@@ -1682,7 +924,7 @@ for (var map in colors.maps) {
 }
 
 defineProps(colors, init());
-},{"./custom/trap":16,"./custom/zalgo":17,"./maps/america":20,"./maps/rainbow":21,"./maps/random":22,"./maps/zebra":23,"./styles":24,"./system/supports-colors":25}],16:[function(require,module,exports){
+},{"./custom/trap":8,"./custom/zalgo":9,"./maps/america":12,"./maps/rainbow":13,"./maps/random":14,"./maps/zebra":15,"./styles":16,"./system/supports-colors":17}],8:[function(require,module,exports){
 module['exports'] = function runTheTrap (text, options) {
   var result = "";
   text = text || "Run the trap, drop the bass";
@@ -1729,7 +971,7 @@ module['exports'] = function runTheTrap (text, options) {
 
 }
 
-},{}],17:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 // please no
 module['exports'] = function zalgo(text, options) {
   text = text || "   he is here   ";
@@ -1835,7 +1077,7 @@ module['exports'] = function zalgo(text, options) {
   return heComes(text, options);
 }
 
-},{}],18:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 var colors = require('./colors');
 
 module['exports'] = function () {
@@ -1949,7 +1191,7 @@ module['exports'] = function () {
   };
 
 };
-},{"./colors":15}],19:[function(require,module,exports){
+},{"./colors":7}],11:[function(require,module,exports){
 var colors = require('./colors');
 module['exports'] = colors;
 
@@ -1962,7 +1204,7 @@ module['exports'] = colors;
 //
 //
 require('./extendStringPrototype')();
-},{"./colors":15,"./extendStringPrototype":18}],20:[function(require,module,exports){
+},{"./colors":7,"./extendStringPrototype":10}],12:[function(require,module,exports){
 var colors = require('../colors');
 
 module['exports'] = (function() {
@@ -1975,7 +1217,7 @@ module['exports'] = (function() {
     }
   }
 })();
-},{"../colors":15}],21:[function(require,module,exports){
+},{"../colors":7}],13:[function(require,module,exports){
 var colors = require('../colors');
 
 module['exports'] = (function () {
@@ -1990,7 +1232,7 @@ module['exports'] = (function () {
 })();
 
 
-},{"../colors":15}],22:[function(require,module,exports){
+},{"../colors":7}],14:[function(require,module,exports){
 var colors = require('../colors');
 
 module['exports'] = (function () {
@@ -1999,13 +1241,13 @@ module['exports'] = (function () {
     return letter === " " ? letter : colors[available[Math.round(Math.random() * (available.length - 1))]](letter);
   };
 })();
-},{"../colors":15}],23:[function(require,module,exports){
+},{"../colors":7}],15:[function(require,module,exports){
 var colors = require('../colors');
 
 module['exports'] = function (letter, i, exploded) {
   return i % 2 === 0 ? letter : colors.inverse(letter);
 };
-},{"../colors":15}],24:[function(require,module,exports){
+},{"../colors":7}],16:[function(require,module,exports){
 /*
 The MIT License (MIT)
 
@@ -2083,7 +1325,7 @@ Object.keys(codes).forEach(function (key) {
   style.open = '\u001b[' + val[0] + 'm';
   style.close = '\u001b[' + val[1] + 'm';
 });
-},{}],25:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 (function (process){
 /*
 The MIT License (MIT)
@@ -2146,8 +1388,8 @@ module.exports = (function () {
 
   return false;
 })();
-}).call(this,require("DF1urx"))
-},{"DF1urx":11}],26:[function(require,module,exports){
+}).call(this,require("1YiZ5S"))
+},{"1YiZ5S":3}],18:[function(require,module,exports){
 "use strict";
 
 module.exports = asString
@@ -2223,7 +1465,7 @@ function asString(/*format,*/ date) {
 
 };
 
-},{}],27:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
 module.exports = new(function() {
 
   // ヒアドキュメント用
@@ -2329,7 +1571,7 @@ module.exports = new(function() {
   };
 })();
 
-},{}],28:[function(require,module,exports){
+},{}],20:[function(require,module,exports){
 (function (global){
 // This file is generated by `make build`. 
 // Do NOT edit by hand. 
@@ -15587,7 +14829,7 @@ exports.strtr = function (str, from, to) {
 };
 
 }).call(this,typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],29:[function(require,module,exports){
+},{}],21:[function(require,module,exports){
 (function (global){
 phpjs = require('./build/npm');
 
@@ -15600,7 +14842,7 @@ phpjs.registerGlobals = function() {
 module.exports = phpjs;
 
 }).call(this,typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./build/npm":28}],30:[function(require,module,exports){
+},{"./build/npm":20}],22:[function(require,module,exports){
 //     Underscore.js 1.8.3
 //     http://underscorejs.org
 //     (c) 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
@@ -17150,119 +16392,9 @@ module.exports = phpjs;
   }
 }.call(this));
 
-},{}],31:[function(require,module,exports){
-// console.log(broccoli);
+},{}],23:[function(require,module,exports){
+(function(window){
+	window.broccoliBootstrap3GlyphiconsField = require('../libs/bootstrap3-glyphicons-client.js');
+})(window);
 
-/**
- * main.js
- */
-window.main = new (function(){
-	var _this = this;
-	var it79 = require('iterate79');
-	var socket = this.socket = window.baobabFw
-		.createSocket(
-			this,
-			io,
-			{
-				'showSocketTest': function( data, callback, main, socket ){
-					// console.log(data);
-					// alert(data.message);
-					// console.log(callback);
-					callback(data);
-					return;
-				}
-			}
-		)
-	;
-
-	// broccoli をインスタンス化
-	var broccoli = new Broccoli();
-	this.broccoli = broccoli;
-
-	this.init = function(callback){
-		callback = callback||function(){};
-		// this.socketTest();
-		// broccoli を初期化
-		broccoli.init(
-			{
-				'elmCanvas': $('.canvas').get(0),
-				'elmModulePalette': $('.palette').get(0),
-				'elmInstancePathView': $('.instancePathView').get(0),
-				'elmInstanceTreeView': $('.instanceTreeView').get(0),
-				'contents_area_selector': '[data-contents]',
-				'contents_bowl_name_by': 'data-contents',
-				'customFields': {
-					'Alert': require('./../../../../libs/bootstrap3-alert-client.js'),
-					'Badge': require('./../../../../libs/bootstrap3-badge-client.js'),
-					'Button': require('./../../../../libs/bootstrap3-button-client.js'),
-					'Glyphicons': require('./../../../../libs/bootstrap3-glyphicons-client.js'),
-					'Labels': require('./../../../../libs/bootstrap3-labels-client.js'),
-					'custom1': function(broccoli){
-						/**
-						 * データをバインドする
-						 */
-						this.bind = function( fieldData, mode, mod, callback ){
-							var php = require('phpjs');
-							var rtn = ''
-							if(typeof(fieldData)===typeof('')){
-								rtn = php.htmlspecialchars( fieldData ); // ←HTML特殊文字変換
-								rtn = rtn.replace(new RegExp('\r\n|\r|\n','g'), '<br />'); // ← 改行コードは改行タグに変換
-							}
-							if( mode == 'canvas' && !rtn.length ){
-								rtn = '<span style="color:#999;background-color:#ddd;font-size:10px;padding:0 1em;max-width:100%;overflow:hidden;white-space:nowrap;">(ダブルクリックしてテキストを編集してください)</span>';
-							}
-							rtn = '<div style="background-color:#993; color:#fff; padding:1em;">'+rtn+'</div>';
-							setTimeout(function(){
-								callback(rtn);
-							}, 0);
-							return;
-						}
-
-					}
-				},
-				'gpiBridge': function(api, options, callback){
-					// General Purpose Interface Bridge
-					socket.send(
-						'broccoli',
-						{
-							'api': 'gpiBridge' ,
-							'bridge': {
-								'api': api ,
-								'options': options
-							}
-						} ,
-						function(rtn){
-							// console.log(rtn);
-							callback(rtn);
-						}
-					);
-					return;
-				}
-			} ,
-			function(){
-				$(window).resize(function(){
-					broccoli.redraw();
-				});
-				callback();
-			}
-		);
-	}
-
-	/**
-	 * WebSocket疎通確認
-	 */
-	this.socketTest = function(){
-		socket.send(
-			'socketTest',
-			{'message': 'socketTest from frontend.'} ,
-			function(data){
-				console.log(data);
-				// alert('callback function is called!');
-			}
-		);
-		return this;
-	}
-
-})();
-
-},{"./../../../../libs/bootstrap3-alert-client.js":1,"./../../../../libs/bootstrap3-badge-client.js":3,"./../../../../libs/bootstrap3-button-client.js":5,"./../../../../libs/bootstrap3-glyphicons-client.js":7,"./../../../../libs/bootstrap3-labels-client.js":8,"iterate79":12,"phpjs":29}]},{},[31])
+},{"../libs/bootstrap3-glyphicons-client.js":1}]},{},[23])

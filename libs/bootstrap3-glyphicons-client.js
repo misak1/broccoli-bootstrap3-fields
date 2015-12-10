@@ -258,17 +258,18 @@ module.exports = function(broccoli){
 	this.mkEditor = function( mod, data, elm, callback ){
 		var rtn = $('<div>');
 
-		var htmlIconList = (function() {/*
-		<li>
-			<label>
-			<input type="radio" name="glyphicon" value="<%= iconData %>" style="display:block;">
-				<div>
-					<span class="glyphicon glyphicon-<%= iconData %>" aria-hidden="true"></span>
-					<span class="glyphicon-class">glyphicon glyphicon-<%= iconData %></span>
-				</div>
-			</label>
-		</li>
-		*/}).toString().uHereDoc();
+		var htmlIconList = '		<li>			<label>			<input type="radio" name="glyphicon" value="<%= iconData %>" style="display:block;">				<div>					<span class="glyphicon glyphicon-<%= iconData %>" aria-hidden="true"></span>					<span class="glyphicon-class">glyphicon glyphicon-<%= iconData %></span>				</div>			</label>		</li>';
+		// var htmlIconList = (function() {/*
+		// <li>
+		// 	<label>
+		// 	<input type="radio" name="glyphicon" value="<%= iconData %>" style="display:block;">
+		// 		<div>
+		// 			<span class="glyphicon glyphicon-<%= iconData %>" aria-hidden="true"></span>
+		// 			<span class="glyphicon-class">glyphicon glyphicon-<%= iconData %></span>
+		// 		</div>
+		// 	</label>
+		// </li>
+		// */}).toString().uHereDoc();
 		var _htmlIconList = _.template(htmlIconList);
 		$ul = $('<ul class="bs-glyphicons-list">');
 		for (var icon_i = 0; icon_i < _icons.length; icon_i++) {

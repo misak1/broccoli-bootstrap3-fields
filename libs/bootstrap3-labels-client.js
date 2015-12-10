@@ -52,14 +52,14 @@ console.log('data', data);
 
 		// label-style
 		var htmlBtnStyle = '		<li style="display:inline-block; vertical-align:bottom; margin-left:.7em;">			<label>				<input type="radio" name="labelStyle" value="<%= styleVal %>" style="display:block;">				<span class="label <%= styleVal %>" type="label"><%= styleLbl %></span>			</label>		</li>';
-		var htmlBtnStyle = (function() {/*
-		<li style="display:inline-block; vertical-align:bottom; margin-left:.7em;">
-			<label>
-				<input type="radio" name="labelStyle" value="<%= styleVal %>" style="display:block;">
-				<span class="label <%= styleVal %>" type="label"><%= styleLbl %></span>
-			</label>
-		</li>
-		*/}).toString().uHereDoc();
+		// var htmlBtnStyle = (function() {/*
+		// <li style="display:inline-block; vertical-align:bottom; margin-left:.7em;">
+		// 	<label>
+		// 		<input type="radio" name="labelStyle" value="<%= styleVal %>" style="display:block;">
+		// 		<span class="label <%= styleVal %>" type="label"><%= styleLbl %></span>
+		// 	</label>
+		// </li>
+		// */}).toString().uHereDoc();
 		var _htmlBtnStyle = _.template(htmlBtnStyle);
 		$ulBtnStyle = $('<ul>');
 		for (var style_i = 0; style_i < _labelStyle.length; style_i++) {

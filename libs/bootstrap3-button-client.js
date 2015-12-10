@@ -10,17 +10,6 @@ module.exports = function(broccoli){
 	var _resMgr = broccoli.resourceMgr;
 	var _this = this;
 
-
-	//  Server Side  | <Client Side>
-	// --------------+-------------------
-	// bind          |
-	// mkPreviewHtml | mkPreviewHtml
-	// normalizeData | normalizeData
-	//               | mkEditor
-	//               | duplicateData
-	//               | saveEditorContent
-	// gpi           |
-
 	/**
 	 * プレビュー用の簡易なHTMLを生成する
 	 */
@@ -91,14 +80,14 @@ console.log('data', data);
 
 		// btn-style
 		var htmlBtnStyle = '		<li style="display:inline-block; vertical-align:bottom; margin-left:.7em;">			<label>				<input type="radio" name="btnStyle" value="<%= styleVal %>" style="display:block;">				<span class="btn <%= styleVal %>" type="button"><%= styleLbl %></span>			</label>		</li>';
-		var htmlBtnStyle = (function() {/*
-		<li style="display:inline-block; vertical-align:bottom; margin-left:.7em;">
-			<label>
-				<input type="radio" name="btnStyle" value="<%= styleVal %>" style="display:block;">
-				<span class="btn <%= styleVal %>" type="button"><%= styleLbl %></span>
-			</label>
-		</li>
-		*/}).toString().uHereDoc();
+		// var htmlBtnStyle = (function() {/*
+		// <li style="display:inline-block; vertical-align:bottom; margin-left:.7em;">
+		// 	<label>
+		// 		<input type="radio" name="btnStyle" value="<%= styleVal %>" style="display:block;">
+		// 		<span class="btn <%= styleVal %>" type="button"><%= styleLbl %></span>
+		// 	</label>
+		// </li>
+		// */}).toString().uHereDoc();
 		var _htmlBtnStyle = _.template(htmlBtnStyle);
 		$ulBtnStyle = $('<ul>');
 		for (var style_i = 0; style_i < _btnStyle.length; style_i++) {

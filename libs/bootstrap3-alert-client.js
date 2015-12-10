@@ -55,16 +55,16 @@ console.log('data', data);
 
 		// alert-style
 		var htmlBtnStyle = '		<li style="display:inline-block; vertical-align:bottom; margin-left:.7em;">			<alert>				<input type="radio" name="alertStyle" value="<%= styleVal %>" style="display:block;">				<span class="alert <%= styleVal %>" type="alert"><%= styleLbl %></span>			</alert>		</li>';
-		var htmlBtnStyle = (function() {/*
-		<li style="vertical-align:bottom;">
-			<label>
-				<input type="radio" name="alertStyle" value="<%= styleVal %>" style="display:block;">
-				<div class="alert <%= styleVal %>" role="alert"><%= styleLbl %>
-					<strong><%= exTitle %></strong><%= exMessage %>
-				</div>
-			</label>
-		</li>
-		*/}).toString().uHereDoc();
+		// var htmlBtnStyle = (function() {/*
+		// <li style="vertical-align:bottom;">
+		// 	<label>
+		// 		<input type="radio" name="alertStyle" value="<%= styleVal %>" style="display:block;">
+		// 		<div class="alert <%= styleVal %>" role="alert"><%= styleLbl %>
+		// 			<strong><%= exTitle %></strong><%= exMessage %>
+		// 		</div>
+		// 	</label>
+		// </li>
+		// */}).toString().uHereDoc();
 		var _htmlBtnStyle = _.template(htmlBtnStyle);
 		$ulBtnStyle = $('<ul>');
 		for (var style_i = 0; style_i < _alertStyle.length; style_i++) {

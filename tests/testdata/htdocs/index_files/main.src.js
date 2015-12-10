@@ -39,6 +39,11 @@ window.main = new (function(){
 				'contents_area_selector': '[data-contents]',
 				'contents_bowl_name_by': 'data-contents',
 				'customFields': {
+					'Alert': require('./../../../../libs/bootstrap3-alert-client.js'),
+					'Badge': require('./../../../../libs/bootstrap3-badge-client.js'),
+					'Button': require('./../../../../libs/bootstrap3-button-client.js'),
+					'Glyphicons': require('./../../../../libs/bootstrap3-glyphicons-client.js'),
+					'Labels': require('./../../../../libs/bootstrap3-labels-client.js'),
 					'custom1': function(broccoli){
 						/**
 						 * データをバインドする

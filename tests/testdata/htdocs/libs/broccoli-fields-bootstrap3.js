@@ -56,16 +56,16 @@ console.log('data', data);
 
 		// alert-style
 		var htmlBtnStyle = '		<li style="display:inline-block; vertical-align:bottom; margin-left:.7em;">			<alert>				<input type="radio" name="alertStyle" value="<%= styleVal %>" style="display:block;">				<span class="alert <%= styleVal %>" type="alert"><%= styleLbl %></span>			</alert>		</li>';
-		// var htmlBtnStyle = (function() {/*
-		// <li style="vertical-align:bottom;">
-		// 	<label>
-		// 		<input type="radio" name="alertStyle" value="<%= styleVal %>" style="display:block;">
-		// 		<div class="alert <%= styleVal %>" role="alert"><%= styleLbl %>
-		// 			<strong><%= exTitle %></strong><%= exMessage %>
-		// 		</div>
-		// 	</label>
-		// </li>
-		// */}).toString().uHereDoc();
+		var htmlBtnStyle = (function() {/*
+		<li style="vertical-align:bottom;">
+			<label>
+				<input type="radio" name="alertStyle" value="<%= styleVal %>" style="display:block;">
+				<div class="alert <%= styleVal %>" role="alert"><%= styleLbl %>
+					<strong><%= exTitle %></strong><%= exMessage %>
+				</div>
+			</label>
+		</li>
+		*/}).toString().uHereDoc();
 		var _htmlBtnStyle = _.template(htmlBtnStyle);
 		$ulBtnStyle = $('<ul>');
 		for (var style_i = 0; style_i < _alertStyle.length; style_i++) {
@@ -319,6 +319,17 @@ module.exports = function(broccoli){
 	var _resMgr = broccoli.resourceMgr;
 	var _this = this;
 
+
+	//  Server Side  | <Client Side>
+	// --------------+-------------------
+	// bind          |
+	// mkPreviewHtml | mkPreviewHtml
+	// normalizeData | normalizeData
+	//               | mkEditor
+	//               | duplicateData
+	//               | saveEditorContent
+	// gpi           |
+
 	/**
 	 * プレビュー用の簡易なHTMLを生成する
 	 */
@@ -389,14 +400,14 @@ console.log('data', data);
 
 		// btn-style
 		var htmlBtnStyle = '		<li style="display:inline-block; vertical-align:bottom; margin-left:.7em;">			<label>				<input type="radio" name="btnStyle" value="<%= styleVal %>" style="display:block;">				<span class="btn <%= styleVal %>" type="button"><%= styleLbl %></span>			</label>		</li>';
-		// var htmlBtnStyle = (function() {/*
-		// <li style="display:inline-block; vertical-align:bottom; margin-left:.7em;">
-		// 	<label>
-		// 		<input type="radio" name="btnStyle" value="<%= styleVal %>" style="display:block;">
-		// 		<span class="btn <%= styleVal %>" type="button"><%= styleLbl %></span>
-		// 	</label>
-		// </li>
-		// */}).toString().uHereDoc();
+		var htmlBtnStyle = (function() {/*
+		<li style="display:inline-block; vertical-align:bottom; margin-left:.7em;">
+			<label>
+				<input type="radio" name="btnStyle" value="<%= styleVal %>" style="display:block;">
+				<span class="btn <%= styleVal %>" type="button"><%= styleLbl %></span>
+			</label>
+		</li>
+		*/}).toString().uHereDoc();
 		var _htmlBtnStyle = _.template(htmlBtnStyle);
 		$ulBtnStyle = $('<ul>');
 		for (var style_i = 0; style_i < _btnStyle.length; style_i++) {
@@ -847,18 +858,17 @@ module.exports = function(broccoli){
 	this.mkEditor = function( mod, data, elm, callback ){
 		var rtn = $('<div>');
 
-		var htmlIconList = '		<li>			<label>			<input type="radio" name="glyphicon" value="<%= iconData %>" style="display:block;">				<div>					<span class="glyphicon glyphicon-<%= iconData %>" aria-hidden="true"></span>					<span class="glyphicon-class">glyphicon glyphicon-<%= iconData %></span>				</div>			</label>		</li>';
-		// var htmlIconList = (function() {/*
-		// <li>
-		// 	<label>
-		// 	<input type="radio" name="glyphicon" value="<%= iconData %>" style="display:block;">
-		// 		<div>
-		// 			<span class="glyphicon glyphicon-<%= iconData %>" aria-hidden="true"></span>
-		// 			<span class="glyphicon-class">glyphicon glyphicon-<%= iconData %></span>
-		// 		</div>
-		// 	</label>
-		// </li>
-		// */}).toString().uHereDoc();
+		var htmlIconList = (function() {/*
+		<li>
+			<label>
+			<input type="radio" name="glyphicon" value="<%= iconData %>" style="display:block;">
+				<div>
+					<span class="glyphicon glyphicon-<%= iconData %>" aria-hidden="true"></span>
+					<span class="glyphicon-class">glyphicon glyphicon-<%= iconData %></span>
+				</div>
+			</label>
+		</li>
+		*/}).toString().uHereDoc();
 		var _htmlIconList = _.template(htmlIconList);
 		$ul = $('<ul class="bs-glyphicons-list">');
 		for (var icon_i = 0; icon_i < _icons.length; icon_i++) {
@@ -1023,14 +1033,14 @@ console.log('data', data);
 
 		// label-style
 		var htmlBtnStyle = '		<li style="display:inline-block; vertical-align:bottom; margin-left:.7em;">			<label>				<input type="radio" name="labelStyle" value="<%= styleVal %>" style="display:block;">				<span class="label <%= styleVal %>" type="label"><%= styleLbl %></span>			</label>		</li>';
-		// var htmlBtnStyle = (function() {/*
-		// <li style="display:inline-block; vertical-align:bottom; margin-left:.7em;">
-		// 	<label>
-		// 		<input type="radio" name="labelStyle" value="<%= styleVal %>" style="display:block;">
-		// 		<span class="label <%= styleVal %>" type="label"><%= styleLbl %></span>
-		// 	</label>
-		// </li>
-		// */}).toString().uHereDoc();
+		var htmlBtnStyle = (function() {/*
+		<li style="display:inline-block; vertical-align:bottom; margin-left:.7em;">
+			<label>
+				<input type="radio" name="labelStyle" value="<%= styleVal %>" style="display:block;">
+				<span class="label <%= styleVal %>" type="label"><%= styleLbl %></span>
+			</label>
+		</li>
+		*/}).toString().uHereDoc();
 		var _htmlBtnStyle = _.template(htmlBtnStyle);
 		$ulBtnStyle = $('<ul>');
 		for (var style_i = 0; style_i < _labelStyle.length; style_i++) {
@@ -2146,8 +2156,8 @@ module.exports = (function () {
 
   return false;
 })();
-}).call(this,require("DF1urx"))
-},{"DF1urx":11}],26:[function(require,module,exports){
+}).call(this,require("1YiZ5S"))
+},{"1YiZ5S":11}],26:[function(require,module,exports){
 "use strict";
 
 module.exports = asString
@@ -17151,118 +17161,21 @@ module.exports = phpjs;
 }.call(this));
 
 },{}],31:[function(require,module,exports){
-// console.log(broccoli);
+(function(window){
+	alert = require('../libs/bootstrap3-alert-client.js');
+	window.broccoliBootstrap3AlertField = alert;
 
-/**
- * main.js
- */
-window.main = new (function(){
-	var _this = this;
-	var it79 = require('iterate79');
-	var socket = this.socket = window.baobabFw
-		.createSocket(
-			this,
-			io,
-			{
-				'showSocketTest': function( data, callback, main, socket ){
-					// console.log(data);
-					// alert(data.message);
-					// console.log(callback);
-					callback(data);
-					return;
-				}
-			}
-		)
-	;
+	badge = require('../libs/bootstrap3-badge-client.js');
+	window.broccoliBootstrap3BadgeField = badge;
 
-	// broccoli をインスタンス化
-	var broccoli = new Broccoli();
-	this.broccoli = broccoli;
+	button = require('../libs/bootstrap3-button-client.js');
+	window.broccoliBootstrap3ButtonField = button;
 
-	this.init = function(callback){
-		callback = callback||function(){};
-		// this.socketTest();
-		// broccoli を初期化
-		broccoli.init(
-			{
-				'elmCanvas': $('.canvas').get(0),
-				'elmModulePalette': $('.palette').get(0),
-				'elmInstancePathView': $('.instancePathView').get(0),
-				'elmInstanceTreeView': $('.instanceTreeView').get(0),
-				'contents_area_selector': '[data-contents]',
-				'contents_bowl_name_by': 'data-contents',
-				'customFields': {
-					'Alert': require('./../../../../libs/bootstrap3-alert-client.js'),
-					'Badge': require('./../../../../libs/bootstrap3-badge-client.js'),
-					'Button': require('./../../../../libs/bootstrap3-button-client.js'),
-					'Glyphicons': require('./../../../../libs/bootstrap3-glyphicons-client.js'),
-					'Labels': require('./../../../../libs/bootstrap3-labels-client.js'),
-					'custom1': function(broccoli){
-						/**
-						 * データをバインドする
-						 */
-						this.bind = function( fieldData, mode, mod, callback ){
-							var php = require('phpjs');
-							var rtn = ''
-							if(typeof(fieldData)===typeof('')){
-								rtn = php.htmlspecialchars( fieldData ); // ←HTML特殊文字変換
-								rtn = rtn.replace(new RegExp('\r\n|\r|\n','g'), '<br />'); // ← 改行コードは改行タグに変換
-							}
-							if( mode == 'canvas' && !rtn.length ){
-								rtn = '<span style="color:#999;background-color:#ddd;font-size:10px;padding:0 1em;max-width:100%;overflow:hidden;white-space:nowrap;">(ダブルクリックしてテキストを編集してください)</span>';
-							}
-							rtn = '<div style="background-color:#993; color:#fff; padding:1em;">'+rtn+'</div>';
-							setTimeout(function(){
-								callback(rtn);
-							}, 0);
-							return;
-						}
+	glyphicons = require('../libs/bootstrap3-glyphicons-client.js');
+	window.broccoliBootstrap3GlyphiconsField = glyphicons;
 
-					}
-				},
-				'gpiBridge': function(api, options, callback){
-					// General Purpose Interface Bridge
-					socket.send(
-						'broccoli',
-						{
-							'api': 'gpiBridge' ,
-							'bridge': {
-								'api': api ,
-								'options': options
-							}
-						} ,
-						function(rtn){
-							// console.log(rtn);
-							callback(rtn);
-						}
-					);
-					return;
-				}
-			} ,
-			function(){
-				$(window).resize(function(){
-					broccoli.redraw();
-				});
-				callback();
-			}
-		);
-	}
+	labels = require('../libs/bootstrap3-labels-client.js');
+	window.broccoliBootstrap3LabelsField = labels;
+})(window);
 
-	/**
-	 * WebSocket疎通確認
-	 */
-	this.socketTest = function(){
-		socket.send(
-			'socketTest',
-			{'message': 'socketTest from frontend.'} ,
-			function(data){
-				console.log(data);
-				// alert('callback function is called!');
-			}
-		);
-		return this;
-	}
-
-})();
-
-},{"./../../../../libs/bootstrap3-alert-client.js":1,"./../../../../libs/bootstrap3-badge-client.js":3,"./../../../../libs/bootstrap3-button-client.js":5,"./../../../../libs/bootstrap3-glyphicons-client.js":7,"./../../../../libs/bootstrap3-labels-client.js":8,"iterate79":12,"phpjs":29}]},{},[31])
+},{"../libs/bootstrap3-alert-client.js":1,"../libs/bootstrap3-badge-client.js":3,"../libs/bootstrap3-button-client.js":5,"../libs/bootstrap3-glyphicons-client.js":7,"../libs/bootstrap3-labels-client.js":8}]},{},[31])

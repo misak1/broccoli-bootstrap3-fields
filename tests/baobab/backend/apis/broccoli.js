@@ -26,6 +26,11 @@ module.exports = function( data, callback, main, socket ){
 					'pathResourceDir': '/editpage/index_files/resources/',
 					'realpathDataDir': path.resolve(__dirname, '../../../testdata/htdocs/editpage/index_files/guieditor.ignore/')+'/',
 					'customFields': {
+						'Alert': require('./../../../../libs/server.js').alert,
+						'Badge': require('./../../../../libs/server.js').badge,
+						'Button': require('./../../../../libs/server.js').button,
+						'Glyphicons': require('./../../../../libs/server.js').glyphicons,
+						'Labels': require('./../../../../libs/server.js').labels,
 						'custom1': function(broccoli){
 							/**
 							 * データをバインドする
